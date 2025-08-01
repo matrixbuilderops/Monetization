@@ -1,0 +1,10 @@
+Category: motivation
+Subcategory: morning_boost
+Image Index: 0
+Generated: 2025-08-01T21:01:04.181123
+Model: stabilityai/stable-diffusion-2-1-base
+Dimensions: 2550x3300
+Seed: 42
+
+Prompt:
+Energizing sunrise motivation, fresh start energy, inspiring morning ritual, uplifting beginning, high quality, professional photography, soft lighting, peaceful composition, wellness aesthetic, therapeutic art style

@@ -1,0 +1,10 @@
+Category: productivity
+Subcategory: imposter_syndrome
+Image Index: 0
+Generated: 2025-08-01T21:00:57.200812
+Model: stabilityai/stable-diffusion-2-1-base
+Dimensions: 2550x3300
+Seed: 42
+
+Prompt:
+A confident professional workspace scene, overcoming self-doubt, warm inspiring lighting, motivational atmosphere, clean modern aesthetic, high quality, professional photography, soft lighting, peaceful composition, wellness aesthetic, therapeutic art style

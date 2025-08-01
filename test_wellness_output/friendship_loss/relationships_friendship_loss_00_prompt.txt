@@ -1,0 +1,10 @@
+Category: relationships
+Subcategory: friendship_loss
+Image Index: 0
+Generated: 2025-08-01T21:01:05.080606
+Model: stabilityai/stable-diffusion-2-1-base
+Dimensions: 2550x3300
+Seed: 42
+
+Prompt:
+Social healing and new connections, friendship recovery, supportive community, welcoming social energy, high quality, professional photography, soft lighting, peaceful composition, wellness aesthetic, therapeutic art style

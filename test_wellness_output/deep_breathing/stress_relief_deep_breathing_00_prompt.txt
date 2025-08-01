@@ -1,0 +1,10 @@
+Category: stress_relief
+Subcategory: deep_breathing
+Image Index: 0
+Generated: 2025-08-01T21:01:02.025865
+Model: stabilityai/stable-diffusion-2-1-base
+Dimensions: 2550x3300
+Seed: 42
+
+Prompt:
+Calming breath work, peaceful respiratory flow, meditative breathing, tranquil atmosphere, high quality, professional photography, soft lighting, peaceful composition, wellness aesthetic, therapeutic art style

@@ -1,0 +1,10 @@
+Category: success
+Subcategory: career_vision
+Image Index: 0
+Generated: 2025-08-01T21:01:02.740321
+Model: stabilityai/stable-diffusion-2-1-base
+Dimensions: 2550x3300
+Seed: 42
+
+Prompt:
+Professional aspiration and growth, career inspiration, ambitious energy, success pathway, high quality, professional photography, soft lighting, peaceful composition, wellness aesthetic, therapeutic art style

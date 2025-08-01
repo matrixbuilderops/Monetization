@@ -1,0 +1,10 @@
+Category: happiness
+Subcategory: joyful_small_things
+Image Index: 0
+Generated: 2025-08-01T21:01:00.597306
+Model: stabilityai/stable-diffusion-2-1-base
+Dimensions: 2550x3300
+Seed: 42
+
+Prompt:
+Finding joy in everyday moments, simple happiness, cheerful atmosphere, uplifting details, high quality, professional photography, soft lighting, peaceful composition, wellness aesthetic, therapeutic art style

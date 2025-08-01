@@ -1,0 +1,10 @@
+Category: gratitude
+Subcategory: daily_practice
+Image Index: 0
+Generated: 2025-08-01T21:00:58.276311
+Model: stabilityai/stable-diffusion-2-1-base
+Dimensions: 2550x3300
+Seed: 42
+
+Prompt:
+A peaceful morning gratitude ritual, thankful meditation, soft natural light, harmonious composition, high quality, professional photography, soft lighting, peaceful composition, wellness aesthetic, therapeutic art style

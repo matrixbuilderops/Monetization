@@ -1,0 +1,10 @@
+Category: anxiety_relief
+Subcategory: future_worry
+Image Index: 0
+Generated: 2025-08-01T21:01:03.457544
+Model: stabilityai/stable-diffusion-2-1-base
+Dimensions: 2550x3300
+Seed: 42
+
+Prompt:
+Present moment peace, releasing future anxiety, calm certainty, grounded stability, high quality, professional photography, soft lighting, peaceful composition, wellness aesthetic, therapeutic art style

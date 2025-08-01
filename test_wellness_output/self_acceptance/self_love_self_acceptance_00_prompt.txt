@@ -1,0 +1,10 @@
+Category: self_love
+Subcategory: self_acceptance
+Image Index: 0
+Generated: 2025-08-01T21:01:01.668176
+Model: stabilityai/stable-diffusion-2-1-base
+Dimensions: 2550x3300
+Seed: 42
+
+Prompt:
+Embracing authenticity, self-compassion, gentle self-love, accepting peaceful energy, high quality, professional photography, soft lighting, peaceful composition, wellness aesthetic, therapeutic art style
