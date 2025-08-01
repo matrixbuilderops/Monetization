@@ -1,0 +1,14 @@
+# Requirements for Python Code Generator
+# Core functionality works with just Python standard library
+
+# Optional dependencies for legacy scripts:
+# pillow>=8.0.0      # For image generation in legacy scripts
+# reportlab>=3.5.0   # For PDF generation in legacy scripts
+# selenium>=4.0.0    # For web scraping in bridge_daemon scripts
+
+# The main python_code_generator.py only requires:
+# - Python 3.6+
+# - Ollama installed and running locally
+# - subprocess (built-in)
+# - pathlib (built-in)
+# - datetime (built-in)
