@@ -1,0 +1,10 @@
+Category: mindfulness
+Subcategory: calm_presence
+Image Index: 0
+Generated: 2025-08-01T21:01:04.001665
+Model: stabilityai/stable-diffusion-2-1-base
+Dimensions: 2550x3300
+Seed: 42
+
+Prompt:
+Serene mindful state, peaceful awareness, tranquil presence, meditative calm, high quality, professional photography, soft lighting, peaceful composition, wellness aesthetic, therapeutic art style

@@ -27,6 +27,11 @@ model_output/
 ready_for_upload/
 stable_diffusion_images/
 
+# Test output directories (don't commit test images)
+test_wellness_output/
+test_*/
+generated_test_*/
+
 # IDE
 .vscode/
 .idea/

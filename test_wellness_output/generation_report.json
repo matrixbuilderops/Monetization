@@ -1,0 +1,269 @@
+{
+  "generation_info": {
+    "timestamp": "2025-08-01T21:01:05.081030",
+    "duration_seconds": 8.102709,
+    "model_id": "stabilityai/stable-diffusion-2-1-base",
+    "device": "cpu",
+    "seed": 42,
+    "image_dimensions": [
+      2550,
+      3300
+    ],
+    "images_per_subcategory": 1,
+    "paper_size_compatible": "2550x3300 (US Letter at 300 DPI)"
+  },
+  "statistics": {
+    "total_categories": 15,
+    "total_subcategories": 45,
+    "total_images_planned": 45,
+    "images_generated": 45,
+    "images_skipped": 0,
+    "start_time": "2025-08-01T21:00:56.978321",
+    "end_time": "2025-08-01T21:01:05.081030",
+    "duration_seconds": 8.102709
+  },
+  "wellness_categories": {
+    "productivity": [
+      "imposter_syndrome",
+      "burnout",
+      "workspace_focus"
+    ],
+    "confidence": [
+      "self_doubt",
+      "public_speaking",
+      "decision_making"
+    ],
+    "gratitude": [
+      "daily_practice",
+      "gratitude_after_loss",
+      "gratitude_for_body"
+    ],
+    "healing": [
+      "breakup",
+      "trauma",
+      "loss"
+    ],
+    "focus": [
+      "ADHD",
+      "study_block",
+      "digital_distraction"
+    ],
+    "creativity": [
+      "artist_block",
+      "new_idea",
+      "creative_confidence"
+    ],
+    "happiness": [
+      "moment_to_moment",
+      "joyful_small_things",
+      "inner_child"
+    ],
+    "resilience": [
+      "setback_recovery",
+      "stress_response",
+      "mental_toughness"
+    ],
+    "self_love": [
+      "body_image",
+      "self_acceptance",
+      "personal_growth"
+    ],
+    "stress_relief": [
+      "deep_breathing",
+      "tension_release",
+      "deadline_pressure"
+    ],
+    "success": [
+      "goals_alignment",
+      "career_vision",
+      "achievement_mindset"
+    ],
+    "anxiety_relief": [
+      "panic_attack",
+      "social_anxiety",
+      "future_worry"
+    ],
+    "mindfulness": [
+      "present_awareness",
+      "grounding",
+      "calm_presence"
+    ],
+    "motivation": [
+      "morning_boost",
+      "daily_grind",
+      "persistence"
+    ],
+    "relationships": [
+      "toxic_family",
+      "romantic_conflict",
+      "friendship_loss"
+    ]
+  },
+  "generation_results": {
+    "productivity": {
+      "imposter_syndrome": [
+        "productivity_imposter_syndrome_00.png"
+      ],
+      "burnout": [
+        "productivity_burnout_00.png"
+      ],
+      "workspace_focus": [
+        "productivity_workspace_focus_00.png"
+      ]
+    },
+    "confidence": {
+      "self_doubt": [
+        "confidence_self_doubt_00.png"
+      ],
+      "public_speaking": [
+        "confidence_public_speaking_00.png"
+      ],
+      "decision_making": [
+        "confidence_decision_making_00.png"
+      ]
+    },
+    "gratitude": {
+      "daily_practice": [
+        "gratitude_daily_practice_00.png"
+      ],
+      "gratitude_after_loss": [
+        "gratitude_gratitude_after_loss_00.png"
+      ],
+      "gratitude_for_body": [
+        "gratitude_gratitude_for_body_00.png"
+      ]
+    },
+    "healing": {
+      "breakup": [
+        "healing_breakup_00.png"
+      ],
+      "trauma": [
+        "healing_trauma_00.png"
+      ],
+      "loss": [
+        "healing_loss_00.png"
+      ]
+    },
+    "focus": {
+      "ADHD": [
+        "focus_ADHD_00.png"
+      ],
+      "study_block": [
+        "focus_study_block_00.png"
+      ],
+      "digital_distraction": [
+        "focus_digital_distraction_00.png"
+      ]
+    },
+    "creativity": {
+      "artist_block": [
+        "creativity_artist_block_00.png"
+      ],
+      "new_idea": [
+        "creativity_new_idea_00.png"
+      ],
+      "creative_confidence": [
+        "creativity_creative_confidence_00.png"
+      ]
+    },
+    "happiness": {
+      "moment_to_moment": [
+        "happiness_moment_to_moment_00.png"
+      ],
+      "joyful_small_things": [
+        "happiness_joyful_small_things_00.png"
+      ],
+      "inner_child": [
+        "happiness_inner_child_00.png"
+      ]
+    },
+    "resilience": {
+      "setback_recovery": [
+        "resilience_setback_recovery_00.png"
+      ],
+      "stress_response": [
+        "resilience_stress_response_00.png"
+      ],
+      "mental_toughness": [
+        "resilience_mental_toughness_00.png"
+      ]
+    },
+    "self_love": {
+      "body_image": [
+        "self_love_body_image_00.png"
+      ],
+      "self_acceptance": [
+        "self_love_self_acceptance_00.png"
+      ],
+      "personal_growth": [
+        "self_love_personal_growth_00.png"
+      ]
+    },
+    "stress_relief": {
+      "deep_breathing": [
+        "stress_relief_deep_breathing_00.png"
+      ],
+      "tension_release": [
+        "stress_relief_tension_release_00.png"
+      ],
+      "deadline_pressure": [
+        "stress_relief_deadline_pressure_00.png"
+      ]
+    },
+    "success": {
+      "goals_alignment": [
+        "success_goals_alignment_00.png"
+      ],
+      "career_vision": [
+        "success_career_vision_00.png"
+      ],
+      "achievement_mindset": [
+        "success_achievement_mindset_00.png"
+      ]
+    },
+    "anxiety_relief": {
+      "panic_attack": [
+        "anxiety_relief_panic_attack_00.png"
+      ],
+      "social_anxiety": [
+        "anxiety_relief_social_anxiety_00.png"
+      ],
+      "future_worry": [
+        "anxiety_relief_future_worry_00.png"
+      ]
+    },
+    "mindfulness": {
+      "present_awareness": [
+        "mindfulness_present_awareness_00.png"
+      ],
+      "grounding": [
+        "mindfulness_grounding_00.png"
+      ],
+      "calm_presence": [
+        "mindfulness_calm_presence_00.png"
+      ]
+    },
+    "motivation": {
+      "morning_boost": [
+        "motivation_morning_boost_00.png"
+      ],
+      "daily_grind": [
+        "motivation_daily_grind_00.png"
+      ],
+      "persistence": [
+        "motivation_persistence_00.png"
+      ]
+    },
+    "relationships": {
+      "toxic_family": [
+        "relationships_toxic_family_00.png"
+      ],
+      "romantic_conflict": [
+        "relationships_romantic_conflict_00.png"
+      ],
+      "friendship_loss": [
+        "relationships_friendship_loss_00.png"
+      ]
+    }
+  }
+}

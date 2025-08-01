@@ -1,0 +1,10 @@
+Category: focus
+Subcategory: study_block
+Image Index: 0
+Generated: 2025-08-01T21:00:59.527132
+Model: stabilityai/stable-diffusion-2-1-base
+Dimensions: 2550x3300
+Seed: 42
+
+Prompt:
+Breakthrough learning moment, academic inspiration, clear thinking energy, productive study space, high quality, professional photography, soft lighting, peaceful composition, wellness aesthetic, therapeutic art style

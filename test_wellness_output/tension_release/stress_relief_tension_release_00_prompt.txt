@@ -1,0 +1,10 @@
+Category: stress_relief
+Subcategory: tension_release
+Image Index: 0
+Generated: 2025-08-01T21:01:02.204618
+Model: stabilityai/stable-diffusion-2-1-base
+Dimensions: 2550x3300
+Seed: 42
+
+Prompt:
+Physical and mental relaxation, stress melting away, soothing relief, peaceful release, high quality, professional photography, soft lighting, peaceful composition, wellness aesthetic, therapeutic art style

@@ -1,0 +1,10 @@
+Category: focus
+Subcategory: digital_distraction
+Image Index: 0
+Generated: 2025-08-01T21:00:59.705468
+Model: stabilityai/stable-diffusion-2-1-base
+Dimensions: 2550x3300
+Seed: 42
+
+Prompt:
+Mindful technology use, focused attention, present moment awareness, calm productivity, high quality, professional photography, soft lighting, peaceful composition, wellness aesthetic, therapeutic art style

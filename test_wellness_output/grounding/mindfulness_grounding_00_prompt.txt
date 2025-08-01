@@ -1,0 +1,10 @@
+Category: mindfulness
+Subcategory: grounding
+Image Index: 0
+Generated: 2025-08-01T21:01:03.822183
+Model: stabilityai/stable-diffusion-2-1-base
+Dimensions: 2550x3300
+Seed: 42
+
+Prompt:
+Earth connection and stability, grounded presence, natural grounding energy, rooted strength, high quality, professional photography, soft lighting, peaceful composition, wellness aesthetic, therapeutic art style

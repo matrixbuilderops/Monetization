@@ -1,0 +1,10 @@
+Category: confidence
+Subcategory: decision_making
+Image Index: 0
+Generated: 2025-08-01T21:00:58.097862
+Model: stabilityai/stable-diffusion-2-1-base
+Dimensions: 2550x3300
+Seed: 42
+
+Prompt:
+A clear path forward, decisive moment, strong leadership energy, confident posture, inspiring backdrop, high quality, professional photography, soft lighting, peaceful composition, wellness aesthetic, therapeutic art style
