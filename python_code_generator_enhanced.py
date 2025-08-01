@@ -116,15 +116,10 @@ class EnhancedPythonCodeGenerator:
         """Detect what type of data structure the user is trying to input."""
         stripped = text.strip()
         
-        if 'CATS' in stripped.upper():
-            return "CATS dictionary for image/content generation"
-        elif stripped.startswith('{') or '= {' in stripped:
+        if stripped.startswith('{') or '= {' in stripped:
             return "dictionary structure"
         elif stripped.startswith('[') or '= [' in stripped:
             return "list structure"
-        elif any(category in stripped.lower() for category in 
-                ['productivity', 'confidence', 'gratitude', 'healing', 'focus']):
-            return "wellness/affirmation categories"
         else:
             return "code structure"
     
@@ -335,31 +330,14 @@ class EnhancedPythonCodeGenerator:
         """Process a user request to generate Python code."""
         print(f"\n🎯 Processing request: {user_request[:100]}{'...' if len(user_request) > 100 else ''}")
         
-        # Detect the type of request and adjust the prompt accordingly
-        structure_type = self.detect_data_structure_type(user_request)
-        
-        if "CATS dictionary" in structure_type or "wellness" in structure_type:
-            # Special handling for CATS dictionary requests
-            prompt = f"""Generate a complete Python script that processes the following data structure: 
+        # Create a generic prompt that works for any command or code block
+        # Emphasize ONE unified script regardless of input complexity
+        prompt = f"""Generate ONE complete Python script based on this request: "{user_request}"
 
-{user_request}
-
-Create a comprehensive script that:
-1. Defines the complete data structure
-2. Processes all categories and subcategories in a single script
-3. Includes functionality to work with the entire dataset
-4. Provides clear output and organization
-5. Uses the data structure as intended (for image generation, affirmations, etc.)
-
-Make sure this is ONE complete script that handles ALL the data, not separate scripts for each category.
-
-Python code:"""
-        else:
-            # Standard prompt for other requests
-            prompt = f"""Generate a complete Python script based on this request: "{user_request}"
+IMPORTANT: Create exactly ONE unified script that handles the entire request, regardless of how complex or multi-part the input may be. Do not split into multiple scripts, files, or separate components.
 
 Please provide only the Python code without any explanations or markdown formatting.
-Make sure the code is complete, well-commented, and ready to run.
+Make sure the code is complete, well-commented, and ready to run as a single script.
 Include necessary imports and proper error handling where appropriate.
 
 Request: {user_request}
@@ -404,17 +382,18 @@ def main():
     print("=" * 60)
     print("This tool uses your local AI model to generate Python scripts based on your requests.")
     print("\n🆕 ENHANCED FEATURES:")
-    print("  ✓ Intelligent multi-line input support")
-    print("  ✓ Paste complete dictionaries/structures directly")
-    print("  ✓ Automatic detection of complete vs incomplete input")
-    print("  ✓ Context-aware processing for CATS dictionaries")
-    print("  ✓ Single comprehensive script generation")
-    print("  ✓ No manual END/CANCEL needed for complete input")
+    print("  ✓ Truly command-agnostic - accepts ANY command or code block")  
+    print("  ✓ Always generates ONE unified script per request")
+    print("  ✓ Handles large multi-line files and complex data structures")
+    print("  ✓ No assumptions about your intent or domain")
+    print("  ✓ No splitting into multiple scripts - always unified output")
+    print("  ✓ Intelligent multi-line input support with auto-completion")
     print("\nExamples:")
     print("  - 'make a hello world program'")
     print("  - 'create a file organizer script'")
     print("  - 'generate a web scraper for news articles'")
-    print("  - Paste a complete CATS dictionary - it will be processed immediately!")
+    print("  - Paste huge data structures or complex multi-line commands")
+    print("  - Any command/code block → ONE complete Python script")
     print("")
     print("Commands:")
     print("  'set output <directory>' - Change output directory")
