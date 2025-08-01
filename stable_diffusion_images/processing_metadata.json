@@ -1,0 +1,490 @@
+{
+  "timestamp": "2025-08-01T18:07:25.602376",
+  "configuration": {
+    "model_id": "stabilityai/stable-diffusion-2-1-base",
+    "device": "cpu",
+    "seed": 42,
+    "images_per_subcategory": 6,
+    "image_dimensions": [
+      2550,
+      3300
+    ],
+    "output_directory": "stable_diffusion_images"
+  },
+  "cats_structure": {
+    "productivity": [
+      "imposter_syndrome",
+      "burnout",
+      "workspace_focus"
+    ],
+    "confidence": [
+      "self_doubt",
+      "public_speaking",
+      "decision_making"
+    ],
+    "gratitude": [
+      "daily_practice",
+      "gratitude_after_loss",
+      "gratitude_for_body"
+    ],
+    "healing": [
+      "breakup",
+      "trauma",
+      "loss"
+    ],
+    "focus": [
+      "ADHD",
+      "study_block",
+      "digital_distraction"
+    ],
+    "creativity": [
+      "artist_block",
+      "new_idea",
+      "creative_confidence"
+    ],
+    "happiness": [
+      "moment_to_moment",
+      "joyful_small_things",
+      "inner_child"
+    ],
+    "resilience": [
+      "setback_recovery",
+      "stress_response",
+      "mental_toughness"
+    ],
+    "self_love": [
+      "body_image",
+      "self_acceptance",
+      "personal_growth"
+    ],
+    "stress_relief": [
+      "deep_breathing",
+      "tension_release",
+      "deadline_pressure"
+    ],
+    "success": [
+      "goals_alignment",
+      "career_vision",
+      "achievement_mindset"
+    ],
+    "anxiety_relief": [
+      "panic_attack",
+      "social_anxiety",
+      "future_worry"
+    ],
+    "mindfulness": [
+      "present_awareness",
+      "grounding",
+      "calm_presence"
+    ],
+    "motivation": [
+      "morning_boost",
+      "daily_grind",
+      "persistence"
+    ],
+    "relationships": [
+      "toxic_family",
+      "romantic_conflict",
+      "friendship_loss"
+    ]
+  },
+  "statistics": {
+    "total_categories": 15,
+    "total_subcategories": 45,
+    "total_images_planned": 270,
+    "images_generated": 270,
+    "images_skipped": 0
+  },
+  "results": {
+    "productivity": {
+      "imposter_syndrome": [
+        "stable_diffusion_images/imposter_syndrome/productivity_imposter_syndrome_00.png",
+        "stable_diffusion_images/imposter_syndrome/productivity_imposter_syndrome_01.png",
+        "stable_diffusion_images/imposter_syndrome/productivity_imposter_syndrome_02.png",
+        "stable_diffusion_images/imposter_syndrome/productivity_imposter_syndrome_03.png",
+        "stable_diffusion_images/imposter_syndrome/productivity_imposter_syndrome_04.png",
+        "stable_diffusion_images/imposter_syndrome/productivity_imposter_syndrome_05.png"
+      ],
+      "burnout": [
+        "stable_diffusion_images/burnout/productivity_burnout_00.png",
+        "stable_diffusion_images/burnout/productivity_burnout_01.png",
+        "stable_diffusion_images/burnout/productivity_burnout_02.png",
+        "stable_diffusion_images/burnout/productivity_burnout_03.png",
+        "stable_diffusion_images/burnout/productivity_burnout_04.png",
+        "stable_diffusion_images/burnout/productivity_burnout_05.png"
+      ],
+      "workspace_focus": [
+        "stable_diffusion_images/workspace_focus/productivity_workspace_focus_00.png",
+        "stable_diffusion_images/workspace_focus/productivity_workspace_focus_01.png",
+        "stable_diffusion_images/workspace_focus/productivity_workspace_focus_02.png",
+        "stable_diffusion_images/workspace_focus/productivity_workspace_focus_03.png",
+        "stable_diffusion_images/workspace_focus/productivity_workspace_focus_04.png",
+        "stable_diffusion_images/workspace_focus/productivity_workspace_focus_05.png"
+      ]
+    },
+    "confidence": {
+      "self_doubt": [
+        "stable_diffusion_images/self_doubt/confidence_self_doubt_00.png",
+        "stable_diffusion_images/self_doubt/confidence_self_doubt_01.png",
+        "stable_diffusion_images/self_doubt/confidence_self_doubt_02.png",
+        "stable_diffusion_images/self_doubt/confidence_self_doubt_03.png",
+        "stable_diffusion_images/self_doubt/confidence_self_doubt_04.png",
+        "stable_diffusion_images/self_doubt/confidence_self_doubt_05.png"
+      ],
+      "public_speaking": [
+        "stable_diffusion_images/public_speaking/confidence_public_speaking_00.png",
+        "stable_diffusion_images/public_speaking/confidence_public_speaking_01.png",
+        "stable_diffusion_images/public_speaking/confidence_public_speaking_02.png",
+        "stable_diffusion_images/public_speaking/confidence_public_speaking_03.png",
+        "stable_diffusion_images/public_speaking/confidence_public_speaking_04.png",
+        "stable_diffusion_images/public_speaking/confidence_public_speaking_05.png"
+      ],
+      "decision_making": [
+        "stable_diffusion_images/decision_making/confidence_decision_making_00.png",
+        "stable_diffusion_images/decision_making/confidence_decision_making_01.png",
+        "stable_diffusion_images/decision_making/confidence_decision_making_02.png",
+        "stable_diffusion_images/decision_making/confidence_decision_making_03.png",
+        "stable_diffusion_images/decision_making/confidence_decision_making_04.png",
+        "stable_diffusion_images/decision_making/confidence_decision_making_05.png"
+      ]
+    },
+    "gratitude": {
+      "daily_practice": [
+        "stable_diffusion_images/daily_practice/gratitude_daily_practice_00.png",
+        "stable_diffusion_images/daily_practice/gratitude_daily_practice_01.png",
+        "stable_diffusion_images/daily_practice/gratitude_daily_practice_02.png",
+        "stable_diffusion_images/daily_practice/gratitude_daily_practice_03.png",
+        "stable_diffusion_images/daily_practice/gratitude_daily_practice_04.png",
+        "stable_diffusion_images/daily_practice/gratitude_daily_practice_05.png"
+      ],
+      "gratitude_after_loss": [
+        "stable_diffusion_images/gratitude_after_loss/gratitude_gratitude_after_loss_00.png",
+        "stable_diffusion_images/gratitude_after_loss/gratitude_gratitude_after_loss_01.png",
+        "stable_diffusion_images/gratitude_after_loss/gratitude_gratitude_after_loss_02.png",
+        "stable_diffusion_images/gratitude_after_loss/gratitude_gratitude_after_loss_03.png",
+        "stable_diffusion_images/gratitude_after_loss/gratitude_gratitude_after_loss_04.png",
+        "stable_diffusion_images/gratitude_after_loss/gratitude_gratitude_after_loss_05.png"
+      ],
+      "gratitude_for_body": [
+        "stable_diffusion_images/gratitude_for_body/gratitude_gratitude_for_body_00.png",
+        "stable_diffusion_images/gratitude_for_body/gratitude_gratitude_for_body_01.png",
+        "stable_diffusion_images/gratitude_for_body/gratitude_gratitude_for_body_02.png",
+        "stable_diffusion_images/gratitude_for_body/gratitude_gratitude_for_body_03.png",
+        "stable_diffusion_images/gratitude_for_body/gratitude_gratitude_for_body_04.png",
+        "stable_diffusion_images/gratitude_for_body/gratitude_gratitude_for_body_05.png"
+      ]
+    },
+    "healing": {
+      "breakup": [
+        "stable_diffusion_images/breakup/healing_breakup_00.png",
+        "stable_diffusion_images/breakup/healing_breakup_01.png",
+        "stable_diffusion_images/breakup/healing_breakup_02.png",
+        "stable_diffusion_images/breakup/healing_breakup_03.png",
+        "stable_diffusion_images/breakup/healing_breakup_04.png",
+        "stable_diffusion_images/breakup/healing_breakup_05.png"
+      ],
+      "trauma": [
+        "stable_diffusion_images/trauma/healing_trauma_00.png",
+        "stable_diffusion_images/trauma/healing_trauma_01.png",
+        "stable_diffusion_images/trauma/healing_trauma_02.png",
+        "stable_diffusion_images/trauma/healing_trauma_03.png",
+        "stable_diffusion_images/trauma/healing_trauma_04.png",
+        "stable_diffusion_images/trauma/healing_trauma_05.png"
+      ],
+      "loss": [
+        "stable_diffusion_images/loss/healing_loss_00.png",
+        "stable_diffusion_images/loss/healing_loss_01.png",
+        "stable_diffusion_images/loss/healing_loss_02.png",
+        "stable_diffusion_images/loss/healing_loss_03.png",
+        "stable_diffusion_images/loss/healing_loss_04.png",
+        "stable_diffusion_images/loss/healing_loss_05.png"
+      ]
+    },
+    "focus": {
+      "ADHD": [
+        "stable_diffusion_images/ADHD/focus_ADHD_00.png",
+        "stable_diffusion_images/ADHD/focus_ADHD_01.png",
+        "stable_diffusion_images/ADHD/focus_ADHD_02.png",
+        "stable_diffusion_images/ADHD/focus_ADHD_03.png",
+        "stable_diffusion_images/ADHD/focus_ADHD_04.png",
+        "stable_diffusion_images/ADHD/focus_ADHD_05.png"
+      ],
+      "study_block": [
+        "stable_diffusion_images/study_block/focus_study_block_00.png",
+        "stable_diffusion_images/study_block/focus_study_block_01.png",
+        "stable_diffusion_images/study_block/focus_study_block_02.png",
+        "stable_diffusion_images/study_block/focus_study_block_03.png",
+        "stable_diffusion_images/study_block/focus_study_block_04.png",
+        "stable_diffusion_images/study_block/focus_study_block_05.png"
+      ],
+      "digital_distraction": [
+        "stable_diffusion_images/digital_distraction/focus_digital_distraction_00.png",
+        "stable_diffusion_images/digital_distraction/focus_digital_distraction_01.png",
+        "stable_diffusion_images/digital_distraction/focus_digital_distraction_02.png",
+        "stable_diffusion_images/digital_distraction/focus_digital_distraction_03.png",
+        "stable_diffusion_images/digital_distraction/focus_digital_distraction_04.png",
+        "stable_diffusion_images/digital_distraction/focus_digital_distraction_05.png"
+      ]
+    },
+    "creativity": {
+      "artist_block": [
+        "stable_diffusion_images/artist_block/creativity_artist_block_00.png",
+        "stable_diffusion_images/artist_block/creativity_artist_block_01.png",
+        "stable_diffusion_images/artist_block/creativity_artist_block_02.png",
+        "stable_diffusion_images/artist_block/creativity_artist_block_03.png",
+        "stable_diffusion_images/artist_block/creativity_artist_block_04.png",
+        "stable_diffusion_images/artist_block/creativity_artist_block_05.png"
+      ],
+      "new_idea": [
+        "stable_diffusion_images/new_idea/creativity_new_idea_00.png",
+        "stable_diffusion_images/new_idea/creativity_new_idea_01.png",
+        "stable_diffusion_images/new_idea/creativity_new_idea_02.png",
+        "stable_diffusion_images/new_idea/creativity_new_idea_03.png",
+        "stable_diffusion_images/new_idea/creativity_new_idea_04.png",
+        "stable_diffusion_images/new_idea/creativity_new_idea_05.png"
+      ],
+      "creative_confidence": [
+        "stable_diffusion_images/creative_confidence/creativity_creative_confidence_00.png",
+        "stable_diffusion_images/creative_confidence/creativity_creative_confidence_01.png",
+        "stable_diffusion_images/creative_confidence/creativity_creative_confidence_02.png",
+        "stable_diffusion_images/creative_confidence/creativity_creative_confidence_03.png",
+        "stable_diffusion_images/creative_confidence/creativity_creative_confidence_04.png",
+        "stable_diffusion_images/creative_confidence/creativity_creative_confidence_05.png"
+      ]
+    },
+    "happiness": {
+      "moment_to_moment": [
+        "stable_diffusion_images/moment_to_moment/happiness_moment_to_moment_00.png",
+        "stable_diffusion_images/moment_to_moment/happiness_moment_to_moment_01.png",
+        "stable_diffusion_images/moment_to_moment/happiness_moment_to_moment_02.png",
+        "stable_diffusion_images/moment_to_moment/happiness_moment_to_moment_03.png",
+        "stable_diffusion_images/moment_to_moment/happiness_moment_to_moment_04.png",
+        "stable_diffusion_images/moment_to_moment/happiness_moment_to_moment_05.png"
+      ],
+      "joyful_small_things": [
+        "stable_diffusion_images/joyful_small_things/happiness_joyful_small_things_00.png",
+        "stable_diffusion_images/joyful_small_things/happiness_joyful_small_things_01.png",
+        "stable_diffusion_images/joyful_small_things/happiness_joyful_small_things_02.png",
+        "stable_diffusion_images/joyful_small_things/happiness_joyful_small_things_03.png",
+        "stable_diffusion_images/joyful_small_things/happiness_joyful_small_things_04.png",
+        "stable_diffusion_images/joyful_small_things/happiness_joyful_small_things_05.png"
+      ],
+      "inner_child": [
+        "stable_diffusion_images/inner_child/happiness_inner_child_00.png",
+        "stable_diffusion_images/inner_child/happiness_inner_child_01.png",
+        "stable_diffusion_images/inner_child/happiness_inner_child_02.png",
+        "stable_diffusion_images/inner_child/happiness_inner_child_03.png",
+        "stable_diffusion_images/inner_child/happiness_inner_child_04.png",
+        "stable_diffusion_images/inner_child/happiness_inner_child_05.png"
+      ]
+    },
+    "resilience": {
+      "setback_recovery": [
+        "stable_diffusion_images/setback_recovery/resilience_setback_recovery_00.png",
+        "stable_diffusion_images/setback_recovery/resilience_setback_recovery_01.png",
+        "stable_diffusion_images/setback_recovery/resilience_setback_recovery_02.png",
+        "stable_diffusion_images/setback_recovery/resilience_setback_recovery_03.png",
+        "stable_diffusion_images/setback_recovery/resilience_setback_recovery_04.png",
+        "stable_diffusion_images/setback_recovery/resilience_setback_recovery_05.png"
+      ],
+      "stress_response": [
+        "stable_diffusion_images/stress_response/resilience_stress_response_00.png",
+        "stable_diffusion_images/stress_response/resilience_stress_response_01.png",
+        "stable_diffusion_images/stress_response/resilience_stress_response_02.png",
+        "stable_diffusion_images/stress_response/resilience_stress_response_03.png",
+        "stable_diffusion_images/stress_response/resilience_stress_response_04.png",
+        "stable_diffusion_images/stress_response/resilience_stress_response_05.png"
+      ],
+      "mental_toughness": [
+        "stable_diffusion_images/mental_toughness/resilience_mental_toughness_00.png",
+        "stable_diffusion_images/mental_toughness/resilience_mental_toughness_01.png",
+        "stable_diffusion_images/mental_toughness/resilience_mental_toughness_02.png",
+        "stable_diffusion_images/mental_toughness/resilience_mental_toughness_03.png",
+        "stable_diffusion_images/mental_toughness/resilience_mental_toughness_04.png",
+        "stable_diffusion_images/mental_toughness/resilience_mental_toughness_05.png"
+      ]
+    },
+    "self_love": {
+      "body_image": [
+        "stable_diffusion_images/body_image/self_love_body_image_00.png",
+        "stable_diffusion_images/body_image/self_love_body_image_01.png",
+        "stable_diffusion_images/body_image/self_love_body_image_02.png",
+        "stable_diffusion_images/body_image/self_love_body_image_03.png",
+        "stable_diffusion_images/body_image/self_love_body_image_04.png",
+        "stable_diffusion_images/body_image/self_love_body_image_05.png"
+      ],
+      "self_acceptance": [
+        "stable_diffusion_images/self_acceptance/self_love_self_acceptance_00.png",
+        "stable_diffusion_images/self_acceptance/self_love_self_acceptance_01.png",
+        "stable_diffusion_images/self_acceptance/self_love_self_acceptance_02.png",
+        "stable_diffusion_images/self_acceptance/self_love_self_acceptance_03.png",
+        "stable_diffusion_images/self_acceptance/self_love_self_acceptance_04.png",
+        "stable_diffusion_images/self_acceptance/self_love_self_acceptance_05.png"
+      ],
+      "personal_growth": [
+        "stable_diffusion_images/personal_growth/self_love_personal_growth_00.png",
+        "stable_diffusion_images/personal_growth/self_love_personal_growth_01.png",
+        "stable_diffusion_images/personal_growth/self_love_personal_growth_02.png",
+        "stable_diffusion_images/personal_growth/self_love_personal_growth_03.png",
+        "stable_diffusion_images/personal_growth/self_love_personal_growth_04.png",
+        "stable_diffusion_images/personal_growth/self_love_personal_growth_05.png"
+      ]
+    },
+    "stress_relief": {
+      "deep_breathing": [
+        "stable_diffusion_images/deep_breathing/stress_relief_deep_breathing_00.png",
+        "stable_diffusion_images/deep_breathing/stress_relief_deep_breathing_01.png",
+        "stable_diffusion_images/deep_breathing/stress_relief_deep_breathing_02.png",
+        "stable_diffusion_images/deep_breathing/stress_relief_deep_breathing_03.png",
+        "stable_diffusion_images/deep_breathing/stress_relief_deep_breathing_04.png",
+        "stable_diffusion_images/deep_breathing/stress_relief_deep_breathing_05.png"
+      ],
+      "tension_release": [
+        "stable_diffusion_images/tension_release/stress_relief_tension_release_00.png",
+        "stable_diffusion_images/tension_release/stress_relief_tension_release_01.png",
+        "stable_diffusion_images/tension_release/stress_relief_tension_release_02.png",
+        "stable_diffusion_images/tension_release/stress_relief_tension_release_03.png",
+        "stable_diffusion_images/tension_release/stress_relief_tension_release_04.png",
+        "stable_diffusion_images/tension_release/stress_relief_tension_release_05.png"
+      ],
+      "deadline_pressure": [
+        "stable_diffusion_images/deadline_pressure/stress_relief_deadline_pressure_00.png",
+        "stable_diffusion_images/deadline_pressure/stress_relief_deadline_pressure_01.png",
+        "stable_diffusion_images/deadline_pressure/stress_relief_deadline_pressure_02.png",
+        "stable_diffusion_images/deadline_pressure/stress_relief_deadline_pressure_03.png",
+        "stable_diffusion_images/deadline_pressure/stress_relief_deadline_pressure_04.png",
+        "stable_diffusion_images/deadline_pressure/stress_relief_deadline_pressure_05.png"
+      ]
+    },
+    "success": {
+      "goals_alignment": [
+        "stable_diffusion_images/goals_alignment/success_goals_alignment_00.png",
+        "stable_diffusion_images/goals_alignment/success_goals_alignment_01.png",
+        "stable_diffusion_images/goals_alignment/success_goals_alignment_02.png",
+        "stable_diffusion_images/goals_alignment/success_goals_alignment_03.png",
+        "stable_diffusion_images/goals_alignment/success_goals_alignment_04.png",
+        "stable_diffusion_images/goals_alignment/success_goals_alignment_05.png"
+      ],
+      "career_vision": [
+        "stable_diffusion_images/career_vision/success_career_vision_00.png",
+        "stable_diffusion_images/career_vision/success_career_vision_01.png",
+        "stable_diffusion_images/career_vision/success_career_vision_02.png",
+        "stable_diffusion_images/career_vision/success_career_vision_03.png",
+        "stable_diffusion_images/career_vision/success_career_vision_04.png",
+        "stable_diffusion_images/career_vision/success_career_vision_05.png"
+      ],
+      "achievement_mindset": [
+        "stable_diffusion_images/achievement_mindset/success_achievement_mindset_00.png",
+        "stable_diffusion_images/achievement_mindset/success_achievement_mindset_01.png",
+        "stable_diffusion_images/achievement_mindset/success_achievement_mindset_02.png",
+        "stable_diffusion_images/achievement_mindset/success_achievement_mindset_03.png",
+        "stable_diffusion_images/achievement_mindset/success_achievement_mindset_04.png",
+        "stable_diffusion_images/achievement_mindset/success_achievement_mindset_05.png"
+      ]
+    },
+    "anxiety_relief": {
+      "panic_attack": [
+        "stable_diffusion_images/panic_attack/anxiety_relief_panic_attack_00.png",
+        "stable_diffusion_images/panic_attack/anxiety_relief_panic_attack_01.png",
+        "stable_diffusion_images/panic_attack/anxiety_relief_panic_attack_02.png",
+        "stable_diffusion_images/panic_attack/anxiety_relief_panic_attack_03.png",
+        "stable_diffusion_images/panic_attack/anxiety_relief_panic_attack_04.png",
+        "stable_diffusion_images/panic_attack/anxiety_relief_panic_attack_05.png"
+      ],
+      "social_anxiety": [
+        "stable_diffusion_images/social_anxiety/anxiety_relief_social_anxiety_00.png",
+        "stable_diffusion_images/social_anxiety/anxiety_relief_social_anxiety_01.png",
+        "stable_diffusion_images/social_anxiety/anxiety_relief_social_anxiety_02.png",
+        "stable_diffusion_images/social_anxiety/anxiety_relief_social_anxiety_03.png",
+        "stable_diffusion_images/social_anxiety/anxiety_relief_social_anxiety_04.png",
+        "stable_diffusion_images/social_anxiety/anxiety_relief_social_anxiety_05.png"
+      ],
+      "future_worry": [
+        "stable_diffusion_images/future_worry/anxiety_relief_future_worry_00.png",
+        "stable_diffusion_images/future_worry/anxiety_relief_future_worry_01.png",
+        "stable_diffusion_images/future_worry/anxiety_relief_future_worry_02.png",
+        "stable_diffusion_images/future_worry/anxiety_relief_future_worry_03.png",
+        "stable_diffusion_images/future_worry/anxiety_relief_future_worry_04.png",
+        "stable_diffusion_images/future_worry/anxiety_relief_future_worry_05.png"
+      ]
+    },
+    "mindfulness": {
+      "present_awareness": [
+        "stable_diffusion_images/present_awareness/mindfulness_present_awareness_00.png",
+        "stable_diffusion_images/present_awareness/mindfulness_present_awareness_01.png",
+        "stable_diffusion_images/present_awareness/mindfulness_present_awareness_02.png",
+        "stable_diffusion_images/present_awareness/mindfulness_present_awareness_03.png",
+        "stable_diffusion_images/present_awareness/mindfulness_present_awareness_04.png",
+        "stable_diffusion_images/present_awareness/mindfulness_present_awareness_05.png"
+      ],
+      "grounding": [
+        "stable_diffusion_images/grounding/mindfulness_grounding_00.png",
+        "stable_diffusion_images/grounding/mindfulness_grounding_01.png",
+        "stable_diffusion_images/grounding/mindfulness_grounding_02.png",
+        "stable_diffusion_images/grounding/mindfulness_grounding_03.png",
+        "stable_diffusion_images/grounding/mindfulness_grounding_04.png",
+        "stable_diffusion_images/grounding/mindfulness_grounding_05.png"
+      ],
+      "calm_presence": [
+        "stable_diffusion_images/calm_presence/mindfulness_calm_presence_00.png",
+        "stable_diffusion_images/calm_presence/mindfulness_calm_presence_01.png",
+        "stable_diffusion_images/calm_presence/mindfulness_calm_presence_02.png",
+        "stable_diffusion_images/calm_presence/mindfulness_calm_presence_03.png",
+        "stable_diffusion_images/calm_presence/mindfulness_calm_presence_04.png",
+        "stable_diffusion_images/calm_presence/mindfulness_calm_presence_05.png"
+      ]
+    },
+    "motivation": {
+      "morning_boost": [
+        "stable_diffusion_images/morning_boost/motivation_morning_boost_00.png",
+        "stable_diffusion_images/morning_boost/motivation_morning_boost_01.png",
+        "stable_diffusion_images/morning_boost/motivation_morning_boost_02.png",
+        "stable_diffusion_images/morning_boost/motivation_morning_boost_03.png",
+        "stable_diffusion_images/morning_boost/motivation_morning_boost_04.png",
+        "stable_diffusion_images/morning_boost/motivation_morning_boost_05.png"
+      ],
+      "daily_grind": [
+        "stable_diffusion_images/daily_grind/motivation_daily_grind_00.png",
+        "stable_diffusion_images/daily_grind/motivation_daily_grind_01.png",
+        "stable_diffusion_images/daily_grind/motivation_daily_grind_02.png",
+        "stable_diffusion_images/daily_grind/motivation_daily_grind_03.png",
+        "stable_diffusion_images/daily_grind/motivation_daily_grind_04.png",
+        "stable_diffusion_images/daily_grind/motivation_daily_grind_05.png"
+      ],
+      "persistence": [
+        "stable_diffusion_images/persistence/motivation_persistence_00.png",
+        "stable_diffusion_images/persistence/motivation_persistence_01.png",
+        "stable_diffusion_images/persistence/motivation_persistence_02.png",
+        "stable_diffusion_images/persistence/motivation_persistence_03.png",
+        "stable_diffusion_images/persistence/motivation_persistence_04.png",
+        "stable_diffusion_images/persistence/motivation_persistence_05.png"
+      ]
+    },
+    "relationships": {
+      "toxic_family": [
+        "stable_diffusion_images/toxic_family/relationships_toxic_family_00.png",
+        "stable_diffusion_images/toxic_family/relationships_toxic_family_01.png",
+        "stable_diffusion_images/toxic_family/relationships_toxic_family_02.png",
+        "stable_diffusion_images/toxic_family/relationships_toxic_family_03.png",
+        "stable_diffusion_images/toxic_family/relationships_toxic_family_04.png",
+        "stable_diffusion_images/toxic_family/relationships_toxic_family_05.png"
+      ],
+      "romantic_conflict": [
+        "stable_diffusion_images/romantic_conflict/relationships_romantic_conflict_00.png",
+        "stable_diffusion_images/romantic_conflict/relationships_romantic_conflict_01.png",
+        "stable_diffusion_images/romantic_conflict/relationships_romantic_conflict_02.png",
+        "stable_diffusion_images/romantic_conflict/relationships_romantic_conflict_03.png",
+        "stable_diffusion_images/romantic_conflict/relationships_romantic_conflict_04.png",
+        "stable_diffusion_images/romantic_conflict/relationships_romantic_conflict_05.png"
+      ],
+      "friendship_loss": [
+        "stable_diffusion_images/friendship_loss/relationships_friendship_loss_00.png",
+        "stable_diffusion_images/friendship_loss/relationships_friendship_loss_01.png",
+        "stable_diffusion_images/friendship_loss/relationships_friendship_loss_02.png",
+        "stable_diffusion_images/friendship_loss/relationships_friendship_loss_03.png",
+        "stable_diffusion_images/friendship_loss/relationships_friendship_loss_04.png",
+        "stable_diffusion_images/friendship_loss/relationships_friendship_loss_05.png"
+      ]
+    }
+  }
+}
