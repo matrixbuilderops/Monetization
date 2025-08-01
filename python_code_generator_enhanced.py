@@ -116,15 +116,10 @@ class EnhancedPythonCodeGenerator:
         """Detect what type of data structure the user is trying to input."""
         stripped = text.strip()
         
-        if 'CATS' in stripped.upper():
-            return "CATS dictionary for image/content generation"
-        elif stripped.startswith('{') or '= {' in stripped:
+        if stripped.startswith('{') or '= {' in stripped:
             return "dictionary structure"
         elif stripped.startswith('[') or '= [' in stripped:
             return "list structure"
-        elif any(category in stripped.lower() for category in 
-                ['productivity', 'confidence', 'gratitude', 'healing', 'focus']):
-            return "wellness/affirmation categories"
         else:
             return "code structure"
     
@@ -335,28 +330,8 @@ class EnhancedPythonCodeGenerator:
         """Process a user request to generate Python code."""
         print(f"\n🎯 Processing request: {user_request[:100]}{'...' if len(user_request) > 100 else ''}")
         
-        # Detect the type of request and adjust the prompt accordingly
-        structure_type = self.detect_data_structure_type(user_request)
-        
-        if "CATS dictionary" in structure_type or "wellness" in structure_type:
-            # Special handling for CATS dictionary requests
-            prompt = f"""Generate a complete Python script that processes the following data structure: 
-
-{user_request}
-
-Create a comprehensive script that:
-1. Defines the complete data structure
-2. Processes all categories and subcategories in a single script
-3. Includes functionality to work with the entire dataset
-4. Provides clear output and organization
-5. Uses the data structure as intended (for image generation, affirmations, etc.)
-
-Make sure this is ONE complete script that handles ALL the data, not separate scripts for each category.
-
-Python code:"""
-        else:
-            # Standard prompt for other requests
-            prompt = f"""Generate a complete Python script based on this request: "{user_request}"
+        # Create a generic prompt that works for any command or code block
+        prompt = f"""Generate a complete Python script based on this request: "{user_request}"
 
 Please provide only the Python code without any explanations or markdown formatting.
 Make sure the code is complete, well-commented, and ready to run.
@@ -407,14 +382,14 @@ def main():
     print("  ✓ Intelligent multi-line input support")
     print("  ✓ Paste complete dictionaries/structures directly")
     print("  ✓ Automatic detection of complete vs incomplete input")
-    print("  ✓ Context-aware processing for CATS dictionaries")
-    print("  ✓ Single comprehensive script generation")
+    print("  ✓ Generic, command-agnostic script generation")
+    print("  ✓ No assumptions about your intent or domain")
     print("  ✓ No manual END/CANCEL needed for complete input")
     print("\nExamples:")
     print("  - 'make a hello world program'")
     print("  - 'create a file organizer script'")
     print("  - 'generate a web scraper for news articles'")
-    print("  - Paste a complete CATS dictionary - it will be processed immediately!")
+    print("  - Paste any command or data structure - it will be processed as requested!")
     print("")
     print("Commands:")
     print("  'set output <directory>' - Change output directory")
