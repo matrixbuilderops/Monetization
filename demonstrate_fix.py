@@ -54,7 +54,7 @@ def demonstrate_fix():
             prompt = mock_call.call_args[0][0]
             
             # Check for generic structure
-            has_generic_start = 'Generate a complete Python script based on this request:' in prompt
+            has_generic_start = 'Generate ONE complete Python script based on this request:' in prompt
             has_user_request = test_input in prompt
             
             # Check for absence of assumptions

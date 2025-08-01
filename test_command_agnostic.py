@@ -62,7 +62,7 @@ class TestCommandAgnosticBehavior(unittest.TestCase):
                         call_args = mock_call.call_args[0][0]  # Get the prompt
                         
                         # Should contain the generic prompt structure
-                        self.assertIn('Generate a complete Python script based on this request:', call_args)
+                        self.assertIn('Generate ONE complete Python script based on this request:', call_args)
                         self.assertIn('Please provide only the Python code without any explanations', call_args)
                         self.assertIn('Make sure the code is complete, well-commented, and ready to run', call_args)
                         
@@ -102,7 +102,7 @@ Create a simple data processor for this dictionary.'''
                 prompt = mock_call.call_args[0][0]
                 
                 # Should use generic prompt, not special CATS handling
-                self.assertIn('Generate a complete Python script based on this request:', prompt)
+                self.assertIn('Generate ONE complete Python script based on this request:', prompt)
                 
                 # Should NOT contain the old special handling text
                 self.assertNotIn('Create a comprehensive script that:', prompt)
@@ -211,6 +211,33 @@ class TestFlexibilityRequirements(unittest.TestCase):
                         for assumption in extra_assumptions:
                             self.assertNotIn(assumption.lower(), prompt.lower(),
                                 f"Should not add assumption '{assumption}' to '{user_input}'")
+
+    def test_one_unified_script_emphasis(self):
+        """Test that the prompt emphasizes creating ONE unified script."""
+        complex_inputs = [
+            "Large data structure with multiple categories and complex processing needs",
+            "Multi-part request with data processing, file handling, and network operations",
+            "Complex workflow involving multiple steps and data transformations",
+        ]
+        
+        for complex_input in complex_inputs:
+            with self.subTest(input_text=complex_input[:50]):
+                with patch.object(self.generator, 'call_model') as mock_call:
+                    mock_call.return_value = "print('unified script')"
+                    
+                    with patch.object(self.generator, 'extract_python_code', return_value="print('test')"), \
+                         patch.object(self.generator, 'save_code', return_value=True), \
+                         patch('builtins.print'):
+                        
+                        self.generator.process_request(complex_input)
+                        
+                        prompt = mock_call.call_args[0][0]
+                        
+                        # Should emphasize ONE unified script
+                        self.assertIn('Generate ONE complete Python script', prompt)
+                        self.assertIn('exactly ONE unified script', prompt)
+                        self.assertIn('Do not split into multiple scripts', prompt)
+                        self.assertIn('regardless of how complex or multi-part', prompt)
 
 
 if __name__ == '__main__':
