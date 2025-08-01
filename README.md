@@ -36,19 +36,29 @@ An interactive tool that uses your local AI model (Ollama) to generate Python sc
    python3 python_code_generator.py
    ```
 
-2. **Make Requests**: Tell the AI what Python script you want:
+2. **Or start in Demo Mode** (no Ollama required):
+   ```bash
+   python3 python_code_generator.py --demo
+   ```
+
+3. **Make Requests**: Tell the AI what Python script you want:
    ```
    What Python script would you like me to generate? > make a hello world program
    What Python script would you like me to generate? > create a calculator that can do basic math
    What Python script would you like me to generate? > generate a file organizer script
    ```
 
-3. **Set Custom Output Directory** (optional):
+4. **Switch to Demo Mode** (if Ollama is not available):
+   ```
+   What Python script would you like me to generate? > demo
+   ```
+
+5. **Set Custom Output Directory** (optional):
    ```
    What Python script would you like me to generate? > set output /path/to/my/scripts
    ```
 
-4. **Exit**:
+6. **Exit**:
    ```
    What Python script would you like me to generate? > quit
    ```
@@ -111,16 +121,20 @@ generated_scripts/
 ## Troubleshooting
 
 **"Ollama not found" error**:
-- Make sure Ollama is installed and in your PATH
-- Try running `ollama --version` to verify installation
+- The tool now detects this immediately and provides clear guidance
+- Install Ollama: `curl -fsSL https://ollama.ai/install.sh | sh`
+- Pull a model: `ollama pull mixtral:8x7b-instruct-v0.1-q6_K`
+- For immediate testing: `python3 python_code_generator.py --demo`
 
 **"Model call timed out"**:
-- The model might be taking too long to respond
-- Try a simpler request or check if Ollama is running properly
+- ✅ **FIXED**: Timeout reduced from 60 to 15 seconds for quicker feedback
+- ✅ **FIXED**: Better detection of unavailable Ollama prevents hanging
+- For testing without Ollama, use demo mode: `python3 python_code_generator.py --demo`
 
-**Code extraction issues**:
-- The tool tries to extract Python code from AI responses
-- If extraction fails, check the raw response for formatting issues
+**No Ollama available**:
+- ✅ **NEW**: Built-in demo mode with `--demo` or `-d` flag
+- ✅ **NEW**: Interactive demo mode switching with `demo` command
+- ✅ **NEW**: Clear installation instructions and alternatives provided
 
 ## Architecture
 
