@@ -1,0 +1,508 @@
+(PhantomCore) phantomcore@HP-Phantom-Core:~/Documents/Monetization$ python3 python_code_generator3.py
+🐍 Interactive Python Code Generator
+==================================================
+This tool uses your local AI model to generate Python scripts based on your requests.
+Examples:
+  - 'make a hello world program'
+  - 'create a file organizer script'
+  - 'generate a web scraper for news articles'
+
+Commands:
+  'set output <directory>' - Change output directory
+  'quit' or 'exit' - Exit the program
+==================================================
+Current output directory: /home/phantomcore/Documents/Monetization/generated_scripts
+
+What Python script would you like me to generate? > hello word
+
+🎯 Processing request: hello word
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking.
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/hello_word_20250801_013117.py
+🎉 Generated Python script: hello_word_20250801_013117.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: """Complete Python script for the request "hello word"."""
+ 2: # This script prints the string "Hello world!"
+ 3:     """Prints Hello world! to the console."""
+ 4:         print("Hello world!")
+ 5:         # Handle any exceptions that might occur during printing
+ 6:         print(f"An error occurred: {e}")
+ 7:     main()
+--------------------------------------------------
+
+What Python script would you like me to generate? > What Python script would you like me to generate? > write generate_sd_images.py: Build a Python script that uses the Hugging Face diffusers library with the model 'stabilityai/stable-diffusion-2-1-base' to generate six images per subcategory from the following CATS dictionary:
+
+CATS = {
+    "productivity": ["imposter_syndrome", "burnout", "workspace_focus"],
+    "confidence": ["self_doubt", "public_speaking", "decision_making"],
+    "gratitude": ["daily_practice", "gratitude_after_loss", "gratitude_for_body"],
+    "healing": ["breakup", "trauma", "loss"],
+    "focus": ["ADHD", "study_block", "digital_distraction"],
+    "creativity": ["artist_block", "new_idea", "creative_confidence"],
+    "happiness": ["moment_to_moment", "joyful_small_things", "inner_child"],
+    "resilience": ["setback_recovery", "stress_response", "mental_toughness"],
+    "self_love": ["body_image", "self_acceptance", "personal_growth"],
+    "stress_relief": ["deep_breathing",
+🎯 Processing request: write generate_sd_images.py: Build a Python script that uses the Hugging Face diffusers library with the model 'stabilityai/stable-diffusion-2-1-base' to generate six images per subcategory from the following CATS dictionary: "tension_release", "deadline_pressure"],
+    "success": ["goals_alignment", "career_vision", "achievement_mindset"],
+    "anxiety_relief": ["panic_attack", "social_anxiety", "future_worry"],
+    "mindfulness": ["present_awareness", "grounding", "calm_presence"],
+    "motivation": ["morning_boost", "daily_grind", "persistence"],
+    "relationships": ["toxic_family", "romantic_conflict", "friendship_loss"]
+}
+
+Use only CPU-compatible setup. The default image resolution must be 2550x3300 pixels (matching US Letter size at 300 DPI). Allow user-configurable parameters at the top of the script, such as image dimensions, number of images per subcategory (default: 6), output directory, and model ID. Use deterministic seed for reproducibility, skip generation if image already exists, and organize images under `stable_diffusion_images/<subcategory>/`.
+
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/generatesdimagespy_build_python_20250801_040806.py
+🎉 Generated Python script: generatesdimagespy_build_python_20250801_040806.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: import os
+ 2: import random
+ 3: from typing import Dict, List, Tuple
+ 4: 
+ 5: import torch
+ 6: from diffusers import DiffusionPipeline
+ 7: from PIL import Image
+ 8: 
+ 9: # Set seeds for reproducibility
+10: torch.manual_seed(42)
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > What Python script would you like me to generate? > 
+🎯 Processing request: CATS = {
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/cats_20250801_050424.py
+🎉 Generated Python script: cats_20250801_050424.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: """A simple script about cats."""
+ 2: import json
+ 3: # Define a dictionary of cats with their names as keys and breeds as values.
+ 4: CATS = {
+ 5:     "Whiskers": "Domestic Shorthair",
+ 6:     "Mittens": "Siamese",
+ 7:     "Tiger": "Tabby",
+ 8: }
+ 9:     """Print the cat dictionary in a user-friendly format."""
+10:     print("Here is a list of our feline friends:")
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > 
+🎯 Processing request: "productivity": ["imposter_syndrome", "burnout", "workspace_focus"],
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/productivity_impostersyndrome_burnout_20250801_051302.py
+🎉 Generated Python script: productivity_impostersyndrome_burnout_20250801_051302.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: # productivity_script.py
+ 2: 
+ 3: import os
+ 4: import sys
+ 5: import json
+ 6: from typing import List
+ 7: 
+ 8: def read_request_file(file_path: str) -> dict:
+ 9:     """Reads JSON request file and returns its content as a Python dictionary.
+10: 
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > 
+🎯 Processing request: "confidence": ["self_doubt", "public_speaking", "decision_making"],
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/confidence_selfdoubt_publicspeaking_20250801_051906.py
+🎉 Generated Python script: confidence_selfdoubt_publicspeaking_20250801_051906.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: import json
+ 2: 
+ 3: # Mock request data as a dictionary
+ 4: request_data = {
+ 5:     "confidence": ["self_doubt", "public_speaking", "decision_making"]
+ 6: }
+ 7: 
+ 8: def handle_confidence_issues(confidence_issues):
+ 9:     """
+10:     Handles confidence issues by printing each issue.
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > 
+🎯 Processing request: "gratitude": ["daily_practice", "gratitude_after_loss", "gratitude_for_body"],
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/gratitude_dailypractice_gratitudeafterloss_20250801_052618.py
+🎉 Generated Python script: gratitude_dailypractice_gratitudeafterloss_20250801_052618.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: # gratitude.py
+ 2: 
+ 3: def daily_practice():
+ 4:     """A simple description of the gratitude practice that could be done on a daily basis."""
+ 5:     print("Gratitude daily practice: Reflect on three new things you are grateful for today.")
+ 6: 
+ 7: def gratitude_after_loss():
+ 8:     """A description of how expressing gratitude can help after a loss."""
+ 9:     print("Gratitude after loss: Though it may be difficult, try to find something to be grateful for in this experience. It can help you move forward with more resilience.")
+10: 
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > 
+🎯 Processing request: "healing": ["breakup", "trauma", "loss"],
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/healing_breakup_trauma_20250801_053129.py
+🎉 Generated Python script: healing_breakup_trauma_20250801_053129.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: # healing_script.py
+ 2: 
+ 3: import json
+ 4: 
+ 5: def heal(issue):
+ 6:     """
+ 7:     A placeholder function for healing different issues.
+ 8:     In a real-world scenario, this would be replaced with actual healing logic.
+ 9:     """
+10:     match issue:
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > 
+🎯 Processing request: "focus": ["ADHD", "study_block", "digital_distraction"],
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/focus_adhd_studyblock_20250801_053442.py
+🎉 Generated Python script: focus_adhd_studyblock_20250801_053442.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: # focus_assistance.py
+ 2: 
+ 3: def main():
+ 4:     requested_focus = ["ADHD", "study_block", "digital_distraction"]
+ 5:     
+ 6:     # Initialize an empty dictionary to store focus-related information
+ 7:     focus_assistance = {}
+ 8: 
+ 9:     try:
+10:         # Attempt to fetch and load data for each requested focus type
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > 
+🎯 Processing request: "creativity": ["artist_block", "new_idea", "creative_confidence"],
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/creativity_artistblock_newidea_20250801_054130.py
+🎉 Generated Python script: creativity_artistblock_newidea_20250801_054130.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: # creativity.py
+ 2: 
+ 3: def artist_block():
+ 4:     """
+ 5:     Helps users deal with artist's block by providing tips and exercises.
+ 6:     """
+ 7:     pass
+ 8: 
+ 9: def new_idea():
+10:     """
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > 
+🎯 Processing request: "happiness": ["moment_to_moment", "joyful_small_things", "inner_child"],
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/happiness_momenttomoment_joyfulsmallthings_20250801_054329.py
+🎉 Generated Python script: happiness_momenttomoment_joyfulsmallthings_20250801_054329.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: # happiness_checker.py
+ 2: 
+ 3: def happiness_check():
+ 4:     """
+ 5:     Checks the level of happiness based on a given request.
+ 6:     :return:
+--------------------------------------------------
+
+What Python script would you like me to generate? > 
+🎯 Processing request: "resilience": ["setback_recovery", "stress_response", "mental_toughness"],
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/resilience_setbackrecovery_stressresponse_20250801_055106.py
+🎉 Generated Python script: resilience_setbackrecovery_stressresponse_20250801_055106.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: import json
+ 2: """
+ 3: Loads data from a JSON file and returns it as a Python object.
+ 4: :param file\_path: The path to the JSON file
+ 5: :return: The data from the JSON file
+ 6: """
+ 7: data = json.load(json\_file)
+ 8: return data
+ 9: print(f"An error occurred while loading the JSON file: {e}")
+10: return None
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > 
+🎯 Processing request: "self_love": ["body_image", "self_acceptance", "personal_growth"],
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/selflove_bodyimage_selfacceptance_20250801_055548.py
+🎉 Generated Python script: selflove_bodyimage_selfacceptance_20250801_055548.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: # self_love_program.py
+ 2: 
+ 3: import json
+ 4: 
+ 5: def get_self_love_topics():
+ 6:     """
+ 7:     Returns a list of topics related to self love.
+ 8:     """
+ 9:     return ["body_image", "self_acceptance", "personal_growth"]
+10: 
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > 
+🎯 Processing request: "stress_relief": ["deep_breathing", "tension_release", "deadline_pressure"],
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/stressrelief_deepbreathing_tensionrelease_20250801_060312.py
+🎉 Generated Python script: stressrelief_deepbreathing_tensionrelease_20250801_060312.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: # stress_relief.py
+ 2: 
+ 3: def deep_breathing():
+ 4:     """Help user to relax by deep breathing exercise."""
+ 5:     print("Take a slow, deep breath in through your nose.")
+ 6:     print("Hold it for a moment.")
+ 7:     print("Now exhale slowly through your mouth.")
+ 8:     print("Repeat this process for several minutes.")
+ 9:     
+10: def tension_release():
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > 
+🎯 Processing request: "success": ["goals_alignment", "career_vision", "achievement_mindset"],
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/success_goalsalignment_careervision_20250801_060651.py
+🎉 Generated Python script: success_goalsalignment_careervision_20250801_060651.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: # Import json module for encoding and decoding JSON data
+ 2: import json
+ 3: 
+ 4: # Define the success elements
+ 5: success_elements = ["goals_alignment", "career_vision", "achievement_mindset"]
+ 6: 
+ 7: # Create a dictionary with the requested data
+ 8: request_data = {"success": success_elements}
+ 9: 
+10: # Convert the dictionary into JSON format
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > 
+🎯 Processing request: "anxiety_relief": ["panic_attack", "social_anxiety", "future_worry"],
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/anxietyrelief_panicattack_socialanxiety_20250801_061321.py
+🎉 Generated Python script: anxietyrelief_panicattack_socialanxiety_20250801_061321.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: # anxiety\_relief.py
+ 2: 
+ 3: import json
+ 4: 
+ 5: def handle_panic_attack():
+ 6:     """Handle panic attack related tasks."""
+ 7:     print("Handling panic attack...")
+ 8: 
+ 9: def handle_social_anxiety():
+10:     """Handle social anxiety related tasks."""
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > 
+🎯 Processing request: "mindfulness": ["present_awareness", "grounding", "calm_presence"],
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/mindfulness_presentawareness_grounding_20250801_061856.py
+🎉 Generated Python script: mindfulness_presentawareness_grounding_20250801_061856.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: # Mindfulness Python Script
+ 2: # Based on the request: {"mindfulness": ["present_awareness", "grounding", "calm_presence"]}
+ 3: 
+ 4: import json
+ 5: 
+ 6: def present_awareness():
+ 7:     """Present Awareness practice."""
+ 8:     print("Focus on the current moment and your present experiences.")
+ 9: 
+10: def grounding():
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > 
+🎯 Processing request: "motivation": ["morning_boost", "daily_grind", "persistence"],
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/motivation_morningboost_dailygrind_20250801_062811.py
+🎉 Generated Python script: motivation_morningboost_dailygrind_20250801_062811.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: # motivation_quotes.py
+ 2: 
+ 3: import random
+ 4: 
+ 5: def morning_boost():
+ 6:     """Generate a quote to boost your morning motivation."""
+ 7:     quotes = [
+ 8:         'The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt',
+ 9:         'Believe you can and you\'re halfway there. - Theodore Roosevelt',
+10:         'Don\'t watch the clock; do what it does. Keep going. - Sam Levenson'
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > 
+🎯 Processing request: "relationships": ["toxic_family", "romantic_conflict", "friendship_loss"]
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/relationships_toxicfamily_romanticconflict_20250801_063225.py
+🎉 Generated Python script: relationships_toxicfamily_romanticconflict_20250801_063225.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: class RelationshipIssue:
+ 2:     def __init__(self, name):
+ 3:         self.name = name
+ 4: 
+ 5: class RelationshipProblem:
+ 6:     def __init__(self, relationships=[]):
+ 7:         self.relationships = [RelationshipIssue(relation) for relation in relationships]
+ 8: 
+ 9:     def describe_issues(self):
+10:         for relationship in self.relationships:
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > 
+🎯 Processing request: }
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/script_20250801_063550.py
+🎉 Generated Python script: script_20250801_063550.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: """
+ 2: However, I will create a script that defines an empty dictionary and asks for user input to add key-value pairs.
+ 3: Author: Nazmul Idriz
+ 4: """
+ 5: my_dict = {}
+ 6:     # Ask for user input to add key-value pairs
+ 7:     key_input = input("Please enter a key (or type 'exit' to quit): ")
+ 8:         break
+ 9:     value_input = input(f"Please enter a value for key '{key_input}': ")
+10:     # Add the key-value pair to the dictionary
+    ... (showing first 10 lines)
+--------------------------------------------------
+
+What Python script would you like me to generate? > What Python script would you like me to generate? > 
+🎯 Processing request: Use only CPU-compatible setup. The default image resolution must be 2550x3300 pixels (matching US Letter size at 300 DPI). Allow user-configurable parameters at the top of the script, such as image dimensions, number of images per subcategory (default: 6), output directory, and model ID. Use deterministic seed for reproducibility, skip generation if image already exists, and organize images under `stable_diffusion_images/<subcategory>/`.
+🤔 Thinking (this may take a while for complex requests)...
+💡 Press Ctrl+C to interrupt if needed
+   Thinking...
+✓ Model finished thinking!
+✓ Code saved to: generated_scripts/use_only_cpucompatible_20250801_064724.py
+🎉 Generated Python script: use_only_cpucompatible_20250801_064724.py
+
+📄 Code preview:
+--------------------------------------------------
+ 1: import os
+ 2: import random
+ 3: from PIL import Image
+ 4: import numpy as np
+ 5: import torch
+ 6: from diffusers import StableDiffusionPipeline
+ 7: # User-configurable parameters
+ 8: IMAGE_WIDTH = 2550
+ 9: IMAGE_HEIGHT = 3300
+10: IMAGES_PER_SUB CATEGORY = 6
+    ... (showing first 10 lines)
+
