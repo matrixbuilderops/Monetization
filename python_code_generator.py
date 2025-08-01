@@ -13,56 +13,26 @@ from datetime import datetime
 # Configuration
 OLLAMA_MODEL = "mixtral:8x7b-instruct-v0.1-q6_K"
 DEFAULT_OUTPUT_DIR = "./generated_scripts"
-DEFAULT_TIMEOUT = 15  # Reduced from 60 seconds for quicker feedback
 
 class PythonCodeGenerator:
-    def __init__(self, model_name=OLLAMA_MODEL, timeout=DEFAULT_TIMEOUT):
+    def __init__(self, model_name=OLLAMA_MODEL):
         self.model_name = model_name
-        self.timeout = timeout
         self.output_dir = Path(DEFAULT_OUTPUT_DIR)
         self.ensure_output_dir()
-        self._ollama_available = None  # Cache ollama availability check
     
     def ensure_output_dir(self):
         """Ensure the output directory exists."""
         self.output_dir.mkdir(exist_ok=True, parents=True)
     
-    def check_ollama_availability(self) -> bool:
-        """Check if Ollama is available and cache the result."""
-        if self._ollama_available is not None:
-            return self._ollama_available
-        
-        try:
-            result = subprocess.run(
-                ["ollama", "--version"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                timeout=5
-            )
-            self._ollama_available = result.returncode == 0
-            return self._ollama_available
-        except (subprocess.TimeoutExpired, FileNotFoundError, Exception):
-            self._ollama_available = False
-            return False
-    
     def call_model(self, prompt: str) -> str:
         """Call the Ollama model with a prompt and return the response."""
-        # Check if Ollama is available first
-        if not self.check_ollama_availability():
-            print("Error: Ollama not found or not responding.")
-            print("To fix this issue, you can:")
-            print("1. Install Ollama: curl -fsSL https://ollama.ai/install.sh | sh")
-            print("2. Pull the required model: ollama pull mixtral:8x7b-instruct-v0.1-q6_K")
-            print("3. Or use demo mode by running: python3 demo_generator.py")
-            return None
-        
         try:
             result = subprocess.run(
                 ["ollama", "run", self.model_name],
                 input=prompt.encode(),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                timeout=self.timeout
+                timeout=60
             )
             
             if result.returncode != 0:
@@ -74,13 +44,10 @@ class PythonCodeGenerator:
             return output
         
         except subprocess.TimeoutExpired:
-            print(f"Model call timed out after {self.timeout} seconds.")
-            print("Try a simpler request or check if Ollama is responding properly.")
-            print("For testing, you can use: python3 demo_generator.py")
+            print("Model call timed out. Please try again.")
             return None
         except FileNotFoundError:
             print("Error: Ollama not found. Please ensure Ollama is installed and in your PATH.")
-            print("For testing without Ollama, run: python3 demo_generator.py")
             return None
         except Exception as e:
             print(f"Unexpected error: {e}")
@@ -212,53 +179,11 @@ Python code:"""
 
 def main():
     """Main interactive loop."""
-    import sys
+    generator = PythonCodeGenerator()
     
-    # Check for demo mode flag
-    demo_mode = "--demo" in sys.argv or "-d" in sys.argv
-    
-    if demo_mode:
-        print("🐍 Interactive Python Code Generator (Demo Mode)")
-        print("=" * 50)
-        print("Running in demo mode with mock AI responses.")
-        print("To use the real AI model, install Ollama and run without --demo flag.")
-        
-        # Use mock generator for demo mode
-        try:
-            from demo_generator import MockPythonCodeGenerator
-            generator = MockPythonCodeGenerator()
-        except ImportError as e:
-            print(f"Error importing demo mode: {e}")
-            print("Falling back to regular mode...")
-            generator = PythonCodeGenerator()
-            demo_mode = False
-    else:
-        generator = PythonCodeGenerator()
-        
-        # Check if Ollama is available and suggest demo mode if not
-        if not generator.check_ollama_availability():
-            print("🐍 Interactive Python Code Generator")
-            print("=" * 50)
-            print("⚠️  Ollama AI model not detected!")
-            print("")
-            print("To use this tool with AI generation:")
-            print("1. Install Ollama: curl -fsSL https://ollama.ai/install.sh | sh")
-            print("2. Pull a model: ollama pull mixtral:8x7b-instruct-v0.1-q6_K")
-            print("")
-            print("For immediate testing, you can:")
-            print("• Run in demo mode: python3 python_code_generator.py --demo")
-            print("• Use the standalone demo: python3 demo_generator.py")
-            print("")
-            choice = input("Continue anyway? (y/N): ").strip().lower()
-            if choice not in ['y', 'yes']:
-                print("Exiting. Try demo mode for immediate testing!")
-                return
-    
-    if not demo_mode:
-        print("🐍 Interactive Python Code Generator")
-        print("=" * 50)
-        print("This tool uses your local AI model to generate Python scripts based on your requests.")
-    
+    print("🐍 Interactive Python Code Generator")
+    print("=" * 50)
+    print("This tool uses your local AI model to generate Python scripts based on your requests.")
     print("Examples:")
     print("  - 'make a hello world program'")
     print("  - 'create a file organizer script'")
@@ -267,8 +192,6 @@ def main():
     print("Commands:")
     print("  'set output <directory>' - Change output directory")
     print("  'quit' or 'exit' - Exit the program")
-    if not demo_mode:
-        print("  'demo' - Switch to demo mode")
     print("=" * 50)
     print(f"Current output directory: {generator.output_dir.absolute()}")
     print("")
@@ -284,17 +207,6 @@ def main():
             if user_input.lower() in ['quit', 'exit', 'q']:
                 print("Goodbye! 👋")
                 break
-            
-            if user_input.lower() == 'demo' and not demo_mode:
-                print("Switching to demo mode...")
-                try:
-                    from demo_generator import MockPythonCodeGenerator
-                    generator = MockPythonCodeGenerator()
-                    demo_mode = True
-                    print("✓ Now running in demo mode with mock responses.")
-                except ImportError:
-                    print("❌ Could not load demo mode.")
-                continue
             
             if user_input.lower().startswith('set output '):
                 new_dir = user_input[11:].strip()

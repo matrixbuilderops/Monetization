@@ -15,13 +15,7 @@ class MockPythonCodeGenerator(PythonCodeGenerator):
     """Mock version that simulates model responses for demo purposes."""
     
     def __init__(self):
-        # Initialize without calling super() to avoid Ollama checks
-        self.model_name = "mock-model"
-        self.timeout = 5
-        self.output_dir = Path("./generated_scripts")
-        self.ensure_output_dir()
-        self._ollama_available = True  # Set to True for mock mode
-        
+        super().__init__()
         self.mock_responses = {
             "hello world": '''Here's a simple hello world program:
 
