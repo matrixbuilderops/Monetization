@@ -7,6 +7,8 @@ Uses local Ollama model to generate Python scripts based on natural language req
 import os
 import subprocess
 import sys
+import threading
+import time
 from pathlib import Path
 from datetime import datetime
 
@@ -26,25 +28,59 @@ class PythonCodeGenerator:
     
     def call_model(self, prompt: str) -> str:
         """Call the Ollama model with a prompt and return the response."""
+        thinking_active = None
+        progress_thread = None
+        process = None
+        
         try:
-            result = subprocess.run(
+            print("🤔 Thinking (this may take a while for complex requests)...")
+            print("💡 Press Ctrl+C to interrupt if needed")
+            
+            # Start a thinking indicator in a separate thread
+            thinking_active = threading.Event()
+            thinking_active.set()
+            
+            def show_thinking_progress():
+                """Show progress dots while the model is thinking."""
+                dots = 0
+                while thinking_active.is_set():
+                    dots = (dots + 1) % 4
+                    progress = "   Thinking" + "." * dots
+                    print(f"\r{progress}", end="", flush=True)
+                    time.sleep(0.5)
+                print("")  # New line when done
+            
+            # Start the progress indicator
+            progress_thread = threading.Thread(target=show_thinking_progress, daemon=True)
+            progress_thread.start()
+            
+            # Start the subprocess without timeout
+            process = subprocess.Popen(
                 ["ollama", "run", self.model_name],
-                input=prompt.encode(),
+                stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                timeout=60
+                stderr=subprocess.PIPE
             )
             
-            if result.returncode != 0:
-                error_msg = result.stderr.decode().strip()
+            # Send the prompt and wait for response
+            stdout, stderr = process.communicate(input=prompt.encode())
+            
+            # Stop the thinking indicator
+            thinking_active.clear()
+            if progress_thread:
+                progress_thread.join(timeout=1)
+            
+            if process.returncode != 0:
+                error_msg = stderr.decode().strip()
                 print(f"Error calling model: {error_msg}")
                 return None
             
-            output = result.stdout.decode().strip()
+            output = stdout.decode().strip()
+            print("✓ Model finished thinking!")
             return output
         
-        except subprocess.TimeoutExpired:
-            print("Model call timed out. Please try again.")
+        except KeyboardInterrupt:
+            print("\n⚠️  Generation interrupted by user.")
             return None
         except FileNotFoundError:
             print("Error: Ollama not found. Please ensure Ollama is installed and in your PATH.")
@@ -52,6 +88,22 @@ class PythonCodeGenerator:
         except Exception as e:
             print(f"Unexpected error: {e}")
             return None
+        finally:
+            # Always clean up the thinking indicator and process
+            if thinking_active:
+                thinking_active.clear()
+            if progress_thread:
+                progress_thread.join(timeout=1)
+            if process:
+                try:
+                    if process.poll() is None:  # Process is still running
+                        process.terminate()
+                        process.wait(timeout=5)
+                except:
+                    try:
+                        process.kill()
+                    except:
+                        pass
     
     def extract_python_code(self, response: str) -> str:
         """Extract Python code from the model response."""
@@ -133,8 +185,7 @@ class PythonCodeGenerator:
     
     def process_request(self, user_request: str, output_dir: Path = None):
         """Process a user request to generate Python code."""
-        print(f"\nProcessing request: {user_request}")
-        print("Thinking... 🤔")
+        print(f"\n🎯 Processing request: {user_request}")
         
         # Create a detailed prompt for the model
         prompt = f"""Generate a complete Python script based on this request: "{user_request}"
@@ -147,7 +198,7 @@ Request: {user_request}
 
 Python code:"""
         
-        # Call the model
+        # Call the model (this now provides its own progress feedback)
         response = self.call_model(prompt)
         if not response:
             print("❌ Failed to generate code.")
@@ -165,10 +216,10 @@ Python code:"""
         
         # Save the code
         if self.save_code(code, filename, output_dir):
-            print(f"✓ Generated Python script: {filename}")
+            print(f"🎉 Generated Python script: {filename}")
             
             # Show a preview of the code
-            print("\nCode preview:")
+            print("\n📄 Code preview:")
             print("-" * 50)
             preview_lines = code.split('\n')[:10]
             for i, line in enumerate(preview_lines, 1):

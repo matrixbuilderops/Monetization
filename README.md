@@ -113,14 +113,35 @@ generated_scripts/
 **"Ollama not found" error**:
 - Make sure Ollama is installed and in your PATH
 - Try running `ollama --version` to verify installation
+- For immediate testing without Ollama: `python3 demo_generator.py`
 
-**"Model call timed out"**:
-- The model might be taking too long to respond
-- Try a simpler request or check if Ollama is running properly
+**Model taking a long time to respond**:
+- ✅ **FIXED**: No more automatic timeouts! The script waits as long as needed
+- ✅ **NEW**: Real-time thinking indicator shows the model is working
+- ✅ **NEW**: Press Ctrl+C anytime to interrupt if needed
+- The script now provides clear feedback during long operations
+- Complex requests may take several minutes - this is normal!
 
 **Code extraction issues**:
 - The tool tries to extract Python code from AI responses
 - If extraction fails, check the raw response for formatting issues
+
+## Key Features of the Timeout Fix
+
+🚀 **No Hard Timeouts**: The script will wait indefinitely for model responses, preventing premature "timeout" errors.
+
+🧠 **Intelligent Progress Feedback**: 
+- Animated "Thinking..." indicator shows the model is actively working
+- Clear messaging about what's happening and what you can do
+
+⚡ **User Control**: 
+- Press Ctrl+C anytime to interrupt a long-running request
+- No more being stuck waiting for arbitrary timeout periods
+
+🔧 **Robust Error Handling**: 
+- Proper cleanup of processes and threads
+- Clear error messages with actionable guidance
+- Graceful handling of all edge cases
 
 ## Architecture
 
