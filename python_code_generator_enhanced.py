@@ -32,27 +32,77 @@ class EnhancedPythonCodeGenerator:
         """Ensure the output directory exists."""
         self.output_dir.mkdir(exist_ok=True, parents=True)
     
-    def is_incomplete_structure(self, text: str) -> bool:
-        """Check if the input appears to be an incomplete data structure."""
+    def is_complete_structure(self, text: str) -> bool:
+        """Check if the input is a complete, valid structure that can be processed."""
         stripped = text.strip()
         
-        # Check for incomplete dictionary/list structures
-        if (stripped.endswith('{') or stripped.endswith('[') or 
-            stripped.endswith(',') or stripped.endswith(':') or
-            stripped.count('{') > stripped.count('}') or
-            stripped.count('[') > stripped.count(']') or
-            stripped.count('(') > stripped.count(')')):
+        # Empty input is not complete
+        if not stripped:
+            return False
+        
+        # Check for unclosed strings first
+        if self._has_unclosed_strings(stripped):
+            return False
+        
+        # Try to parse as valid Python syntax first
+        if self.is_valid_python_structure(stripped):
             return True
         
-        # Check for incomplete assignments
-        if '=' in stripped and not stripped.endswith('}') and not stripped.endswith(']'):
-            return True
-        
-        # Check for dictionary-like patterns
-        if stripped.startswith('"') and '":' in stripped and not stripped.endswith('},'):
+        # Check if it's a complete natural language request (most common case)
+        # If it doesn't look like code/data structure, treat as complete natural language
+        if not any(char in stripped for char in ['{', '[', '=', ':', '"']):
             return True
             
+        # For structures with brackets, check if they're balanced
+        if (stripped.count('{') == stripped.count('}') and
+            stripped.count('[') == stripped.count(']') and
+            stripped.count('(') == stripped.count(')')):
+            
+            # If brackets are balanced, check if it ends properly
+            if (stripped.endswith('}') or stripped.endswith(']') or 
+                stripped.endswith(')') or not any(char in stripped for char in ['{', '[', '('])):
+                return True
+        
         return False
+    
+    def _has_unclosed_strings(self, text: str) -> bool:
+        """Check if there are unclosed string literals."""
+        # Simple check for unclosed quotes
+        single_quotes = text.count("'")
+        double_quotes = text.count('"')
+        
+        # If odd number of quotes, we likely have unclosed strings
+        return (single_quotes % 2 == 1) or (double_quotes % 2 == 1)
+    
+    def is_incomplete_structure(self, text: str) -> bool:
+        """Check if the input appears to be an incomplete data structure that needs more input."""
+        stripped = text.strip()
+        
+        # If it's already complete, it's not incomplete
+        if self.is_complete_structure(stripped):
+            return False
+        
+        # Only consider incomplete if it has clear structural indicators that suggest more input
+        incomplete_indicators = (
+            # Clearly unbalanced brackets
+            (stripped.count('{') > stripped.count('}')) or
+            (stripped.count('[') > stripped.count(']')) or
+            (stripped.count('(') > stripped.count(')')) or
+            
+            # Ends with structural characters that suggest continuation
+            stripped.endswith('{') or 
+            stripped.endswith('[') or 
+            stripped.endswith(',') or
+            stripped.endswith(':') or
+            
+            # Assignment without clear completion
+            ('=' in stripped and stripped.endswith('=')) or
+            
+            # String that's clearly incomplete
+            self._has_unclosed_strings(stripped)
+        )
+        
+        return incomplete_indicators
     
     def is_valid_python_structure(self, text: str) -> bool:
         """Check if the text is a valid Python structure."""
@@ -238,16 +288,21 @@ class EnhancedPythonCodeGenerator:
     def handle_multi_line_input(self, user_input: str) -> str:
         """Handle multi-line input for complex data structures."""
         if not self.multi_line_mode:
-            # Check if this input starts a multi-line structure
+            # Check if this is complete input that can be processed immediately
+            if self.is_complete_structure(user_input):
+                return user_input
+            
+            # Only enter multi-line mode if input is clearly incomplete
             if self.is_incomplete_structure(user_input):
                 self.multi_line_mode = True
                 self.current_input = user_input
                 structure_type = self.detect_data_structure_type(user_input)
-                print(f"📝 Detected incomplete {structure_type}. Entering multi-line mode.")
-                print("💡 Continue entering your data. Type 'END' on a new line when finished.")
-                print("💡 Type 'CANCEL' to cancel multi-line input.")
+                print(f"📝 Detected incomplete {structure_type}.")
+                print("💡 Continue entering your data. I'll process it when complete.")
+                print("💡 Type 'END' to finish early or 'CANCEL' to cancel.")
                 return None
             else:
+                # Input doesn't look incomplete, process it as-is
                 return user_input
         else:
             # We're in multi-line mode
@@ -255,7 +310,7 @@ class EnhancedPythonCodeGenerator:
                 self.multi_line_mode = False
                 complete_input = self.current_input
                 self.current_input = ""
-                print("✓ Multi-line input completed.")
+                print("✓ Multi-line input completed manually.")
                 return complete_input
             elif user_input.strip().upper() == 'CANCEL':
                 self.multi_line_mode = False
@@ -263,7 +318,17 @@ class EnhancedPythonCodeGenerator:
                 print("❌ Multi-line input cancelled.")
                 return None
             else:
+                # Add the new line to current input
                 self.current_input += "\n" + user_input
+                
+                # Check if the combined input is now complete
+                if self.is_complete_structure(self.current_input):
+                    self.multi_line_mode = False
+                    complete_input = self.current_input
+                    self.current_input = ""
+                    print("✓ Multi-line input auto-completed!")
+                    return complete_input
+                
                 return None
     
     def process_request(self, user_request: str, output_dir: Path = None):
@@ -338,16 +403,18 @@ def main():
     print("🐍 Enhanced Interactive Python Code Generator")
     print("=" * 60)
     print("This tool uses your local AI model to generate Python scripts based on your requests.")
-    print("\n🆕 NEW FEATURES:")
-    print("  ✓ Multi-line input support for complex data structures")
-    print("  ✓ Automatic detection of incomplete input")
+    print("\n🆕 ENHANCED FEATURES:")
+    print("  ✓ Intelligent multi-line input support")
+    print("  ✓ Paste complete dictionaries/structures directly")
+    print("  ✓ Automatic detection of complete vs incomplete input")
     print("  ✓ Context-aware processing for CATS dictionaries")
     print("  ✓ Single comprehensive script generation")
+    print("  ✓ No manual END/CANCEL needed for complete input")
     print("\nExamples:")
     print("  - 'make a hello world program'")
     print("  - 'create a file organizer script'")
     print("  - 'generate a web scraper for news articles'")
-    print("  - Start typing a CATS dictionary and let the tool detect it")
+    print("  - Paste a complete CATS dictionary - it will be processed immediately!")
     print("")
     print("Commands:")
     print("  'set output <directory>' - Change output directory")
