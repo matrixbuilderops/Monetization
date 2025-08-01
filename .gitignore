@@ -25,6 +25,7 @@ MANIFEST
 generated_scripts/
 model_output/
 ready_for_upload/
+stable_diffusion_images/
 
 # IDE
 .vscode/
