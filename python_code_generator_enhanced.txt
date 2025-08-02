@@ -1,0 +1,203 @@
+(PhantomCore) phantomcore@HP-Phantom-Core:~/Documents/Monetization$ python3 python_code_generator_enhanced.py
+🐍 Enhanced Interactive Python Code Generator
+============================================================
+This tool uses your local AI model to generate Python scripts based on your requests.
+
+🆕 NEW FEATURES:
+  ✓ Multi-line input support for complex data structures
+  ✓ Automatic detection of incomplete input
+  ✓ Context-aware processing for CATS dictionaries
+  ✓ Single comprehensive script generation
+
+Examples:
+  - 'make a hello world program'
+  - 'create a file organizer script'
+  - 'generate a web scraper for news articles'
+  - Start typing a CATS dictionary and let the tool detect it
+
+Commands:
+  'set output <directory>' - Change output directory
+  'clear context' - Clear multi-line input buffer
+  'quit' or 'exit' - Exit the program
+============================================================
+Current output directory: /home/phantomcore/Documents/Monetization/generated_scripts
+
+What Python script would you like me to generate? > write generate_sd_images.py: Build a Python script that uses the Hugging Face diffusers library with the model 'stabilityai/stable-diffusion-2-1-base' to generate six images per subcategory from the following CATS dictionary:
+
+CATS = {
+    "productivity": ["imposter_syndrome", "burnout", "workspace_focus"],
+    "confidence": ["self_doubt", "public_speaking", "decision_making"],
+    "gratitude": ["daily_practice", "gratitude_after_loss", "gratitude_for_body"],
+    "healing": ["breakup", "trauma", "loss"],
+    "focus": ["ADHD", "study_block", "digital_distraction"],
+    "creativity": ["artist_block", "new_idea", "creative_confidence"],
+    "happiness": ["moment_to_moment", "joyful_small_things", "inner_child"],
+    "resilience": ["setback_recovery", "stress_response", "mental_toughness"],
+    "self_love": ["body_image", "self_acceptance", "personal_growth"],
+    "stress_relief": ["deep_breathing",
+🎯 Processing request: write generate_sd_images.py: Build a Python script that uses the H📝 Detected incomplete CATS dictionary for image/content generation. Entering multi-line mode.
+ugging Face diffusers library with the model 'stabilityai/stable-diffusion-2-1-base' to generate six images per subcategory from the following CATS dictionary: "tension_release", "deadline_pressure"],
+💡 Continue entering your data. Type 'END' on a new line when finished.
+    "success": ["goals_alignment", "career_vision", "achievement_mindset"],
+    "anxiety_reli💡 Type 'CANCEL' to cancel multi-line input.
+ef": ["panic_attack", "social_anxiety", "future_worry"],
+    "mindfulness": ["present_awareness", "grounding", "calm_presence"],
+    "motivation": ["morning_boost", "daily_grind", "persistence"],
+    "relationships": ["toxic_family", "romantic_confli... (multi-line mode) > ct", "friendship_loss"]
+}
+
+Use only CPU-compatible setup. The default image resolution must be 2550x3300 pixels (matching US Letter size at 300 DPI). Allow user-configurable parameters at the top of the script, such as image dimensions, number of images... (multi-line mode) >  per subcategory (default: 6), output directory, and model ID. Use deterministic seed for reproducibility, skip generation if image already exists, and organize images under `stable_diffusion_images/<subcategory>/`.... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-li^[[1;2A^[[A^A^C                                                                                                                        
+
+Goodbye! 👋
+(PhantomCore) phantomcore@HP-Phantom-Core:~/Documents/Monetization$ python3 python_code_generator_enhanced.py
+🐍 Enhanced Interactive Python Code Generator
+============================================================
+This tool uses your local AI model to generate Python scripts based on your requests.
+
+🆕 NEW FEATURES:
+  ✓ Multi-line input support for complex data structures
+  ✓ Automatic detection of incomplete input
+  ✓ Context-aware processing for CATS dictionaries
+  ✓ Single comprehensive script generation
+
+Examples:
+  - 'make a hello world program'
+  - 'create a file organizer script'
+  - 'generate a web scraper for news articles'
+  - Start typing a CATS dictionary and let the tool detect it
+
+Commands:
+  'set output <directory>' - Change output directory
+  'clear context' - Clear multi-line input buffer
+  'quit' or 'exit' - Exit the program
+============================================================
+Current output directory: /home/phantomcore/Documents/Monetization/generated_scripts
+
+What Python script would you like me to generate? > write generate_sd_images.py: Build a Python script that uses the Hugging Face diffusers library with the model 'stabilityai/stable-diffusion-2-1-base' to generate six images per subcategory from the following CATS dictionary:
+
+CATS = {
+    "productivity": ["imposter_syndrome", "burnout", "workspace_focus"],
+    "confidence": ["self_doubt", "public_speaking", "decision_making"],
+    "gratitude": ["daily_practice", "gratitude_after_loss", "gratitude_for_body"],
+    "healing": ["breakup", "trauma", "loss"],
+    "focus": ["ADHD", "study_block", "digital_distraction"],
+    "creativity": ["artist_block", "new_idea", "creative_confidence"],
+    "happiness": ["moment_to_moment", "joyful_small_things", "inner_child"],
+    "resilience": ["setback_recovery", "stress_response", "mental_toughness"],
+    "self_love": ["body_image", "self_acceptance", "personal_growth"],
+    "stress_relief": ["deep_breathing",
+🎯 Processing request: write generate_sd_images.py: Build a Python script that uses the Huggi📝 Detected incomplete CATS dictionary for image/content generation. Entering multi-line mode.
+ng Face diffusers library with the model 'stabilityai/stable-diffusion-2-1-base' to generate six images per subcategory from the following CATS dictionary: "tension_release", "deadline_pressure"],
+    "success": ["goals_alignment", "career💡 Continue entering your data. Type 'END' on a new line when finished.
+_vision", "achievement_mindset"],
+    "anxiety_relief": ["panic_attack", "social_anxiety", "future_worry"],
+    "mindfulness": ["present_awareness", "grounding💡 Type 'CANCEL' to cancel multi-line input.
+", "calm_presence"],
+    "motivation": ["morning_boost", "daily_grind", "persistence"],
+    "relationships": ["toxic_family", "romantic_conflict", "friendship_loss"]
+}
+
+Use only CPU-compatible setup. The default image resolution must be 2550x3300 pixe... (multi-line mode) > ls (matching US Letter size at 300 DPI). Allow user-configurable parameters at the top of the script, such as image dimensions, number of images per subcategory (default: 6), output directory, and model ID. Use deterministic seed for reproducibility, skip ... (multi-line mode) > generation if image already exists, and organize images under `stable_diffusion_images/<subcategory>/`.... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > 
+... (multi-line mode) > 
+... (multi-line mode) > 
+... (multi-line mode) > 
+... (multi-line mode) > write generate_sd_images.py: Build a Python script that uses the Hugging Face diffusers library with the model 'stabilityai/stable-diffusion-2-1-base' to generate six images per subcategory from the following CATS dictionary:
+
+CATS = {
+    "productivity": ["imposter_syndrome", "burnout", "workspace_focus"],
+    "confidence": ["self_doubt", "public_speaking", "decision_making"],
+    "gratitude": ["daily_practice", "gratitude_after_loss", "gratitude_for_body"],
+    "healing": ["breakup", "trauma", "loss"],
+    "focus": ["ADHD", "study_block", "digital_distraction"],
+    "creativity": ["artist_block", "new_idea", "creative_confidence"],
+    "happiness": ["moment_to_moment", "joyful_small_things", "inner_child"],
+    "resilience": ["setback_recovery", "stress_response", "mental_toughness"],
+    "self_love": ["body_image", "self_acceptance", "personal_growth"],
+    "stress_relief": ["deep_breathing",
+🎯 Processing request: write generate_sd_images.py: Build a Python script that uses the Hugging Face diffusers library with the model 'stabilityai/stable-diffusion-2-1-base' to generate six images per subcategory from the following CATS dictionary: "tension_release", "deadline_pressure"],
+    "success": ["goals_alignment", "career_vision", "achieveme... (multi-line mode) > nt_mindset"],
+    "anxiety_relief": ["panic_attack", "social_anxiety", "future_worry"],
+    "mindfulness": ["present_awareness", "grounding", "calm_presence"],
+    "motivation": ["morning_boost", "daily_grind", "persistence"],
+    "relationships": ["toxic_f... (multi-line mode) > amily", "romantic_conflict", "friendship_loss"]
+}
+
+Use only CPU-compatible setup. The default image resolution must be 2550x3300 pixels (matching US Letter size at 300 DPI). Allow user-configurable parameters at the top of the script, such as image dimensions, number ... (multi-line mode) > of images per subcategory (default: 6), output directory, and model ID. Use deterministic seed for reproducibility, skip generation if image already exists, and organize images under `stable_diffusion_images/<subcategory>/`.... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > 
+... (multi-line mode) > 
+... (multi-line mode) > 
+... (multi-line mode) > 
+... (multi-line mode) > 
+... (multi-line mode) > ^C
+
+Goodbye! 👋
+(PhantomCore) phantomcore@HP-Phantom-Core:~/Documents/Monetization$ python3 python_code_generator_enhanced.py
+🐍 Enhanced Interactive Python Code Generator
+============================================================
+This tool uses your local AI model to generate Python scripts based on your requests.
+
+🆕 NEW FEATURES:
+  ✓ Multi-line input support for complex data structures
+  ✓ Automatic detection of incomplete input
+  ✓ Context-aware processing for CATS dictionaries
+  ✓ Single comprehensive script generation
+
+Examples:
+  - 'make a hello world program'
+  - 'create a file organizer script'
+  - 'generate a web scraper for news articles'
+  - Start typing a CATS dictionary and let the tool detect it
+
+Commands:
+  'set output <directory>' - Change output directory
+  'clear context' - Clear multi-line input buffer
+  'quit' or 'exit' - Exit the program
+============================================================
+Current output directory: /home/phantomcore/Documents/Monetization/generated_scripts
+
+What Python script would you like me to generate? > write generate_sd_images.py: Build a Python script that uses the Hugging Face diffusers library with the model 'stabilityai/stable-diffusion-2-1-base' to generate six images per subcategory from the following CATS dictionary:
+
+CATS = {
+    "productivity": ["imposter_syndrome", "burnout", "workspace_focus"],
+    "confidence": ["self_doubt", "public_speaking", "decision_making"],
+    "gratitude": ["daily_practice", "gratitude_after_loss", "gratitude_for_body"],
+    "healing": ["breakup", "trauma", "loss"],
+    "focus": ["ADHD", "study_block", "digital_distraction"],
+    "creativity": ["artist_block", "new_idea", "creative_confidence"],
+    "happiness": ["moment_to_moment", "joyful_small_things", "inner_child"],
+    "resilience": ["setback_recovery", "stress_response", "mental_toughness"],
+    "self_love": ["body_image", "self_acceptance", "personal_growth"],
+    "stress_relief": ["deep_breathing",
+🎯 Processing request: write generate_sd_images.py: Build a Python script that uses the Hugging Face diffusers library with the model 'stabilityai/stable-diffusion-2-1-base' to generate six images per subcategory from the following CATS dictionary: "tension_release", "deadline_pressure"],
+    "success": [📝 Detected incomplete CATS dictionary for image/content generation. Entering multi-line mode.
+"goals_alignment", "career_vision", "achievement_mindset"],
+    "anxiety_relief": ["panic_attack", "social_anxiety", "future_worry"],
+    "mindfulness": ["present_awareness", "grounding", "calm_presence"],
+    "motivation": ["morni💡 Continue entering your data. Type 'END' on a new line when finished.
+ng_boost", "daily_grind", "persistence"],
+    "relationships": ["toxic_family", "romantic_conflict", "friendship_loss"]
+}
+
+💡 Type 'CANCEL' to cancel multi-line input.
+Use only CPU-compatible setup. The default image resolution must be 2550x3300 pixels (matching US Letter size at 300 DPI). Allow user-configurable parameters at the top of the script, such as image dimensions, number of images per subcategory (default: 6), out... (multi-line mode) > put directory, and model ID. Use deterministic seed for reproducibility, skip generation if image already exists, and organize images under `stable_diffusion_images/<subcategory>/`.... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > write generate_sd_images.py: Build a Python script that uses the Hugging Face diffusers library with the model 'stabilityai/stable-diffusion-2-1-base' to generate six images per subcategory from the following CATS dictionary:
+
+CATS = {
+    "productivity": ["imposter_syndrome", "burnout", "workspace_focus"],
+    "confidence": ["self_doubt", "public_speaking", "decision_making"],
+    "gratitude": ["daily_practice", "gratitude_after_loss", "gratitude_for_body"],
+    "healing": ["breakup", "trauma", "loss"],
+   ... (multi-line mode) >  "focus": ["ADHD", "study_block", "digital_distraction"],
+    "creativity": ["artist_block", "new_idea", "creative_confidence"],
+    "happiness": ["moment_to_moment", "joyful_small_things", "inner_child"],
+    "resilience": ["setback_recovery", "stre... (multi-line mode) > ss_response", "mental_toughness"],
+    "self_love": ["body_image", "self_acceptance", "personal_growth"],
+    "stress_relief": ["deep_breathing",
+🎯 Processing request: write generate_sd_images.py: Build a Python script that uses the Hugging Face dif... (multi-line mode) > fusers library with the model 'stabilityai/stable-diffusion-2-1-base' to generate six images per subcategory from the following CATS dictionary: "tension_release", "deadline_pressure"],
+    "success": ["goals_alignment", "career_vision", "achievement_min... (multi-line mode) > dset"],
+    "anxiety_relief": ["panic_attack", "social_anxiety", "future_worry"],
+    "mindfulness": ["present_awareness", "grounding", "calm_presence"],
+    "motivation": ["morning_boost", "daily_grind", "persistence"],
+    "relationships": ["toxi... (multi-line mode) > c_family", "romantic_conflict", "friendship_loss"]
+}
+
+Use only CPU-compatible setup. The default image resolution must be 2550x3300 pixels (matching US Letter size at 300 DPI). Allow user-configurable parameters at the top of the script, such as image ... (multi-line mode) > dimensions, number of images per subcategory (default: 6), output directory, and model ID. Use deterministic seed for reproducibility, skip generation if image already exists, and organize images under `stable_diffusion_images/<subcategory>/`.... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > ... (multi-line mode) > 
+
