@@ -2,6 +2,7 @@
 """
 Interactive Python Code Generator
 Uses local Ollama model to generate Python scripts based on natural language requests.
+Features: multi-line input, context retention, and complex data structure handling.
 """
 
 import os
@@ -9,6 +10,8 @@ import subprocess
 import sys
 import threading
 import time
+import json
+import ast
 from pathlib import Path
 from datetime import datetime
 
@@ -20,11 +23,110 @@ class PythonCodeGenerator:
     def __init__(self, model_name=OLLAMA_MODEL):
         self.model_name = model_name
         self.output_dir = Path(DEFAULT_OUTPUT_DIR)
+        self.context_buffer = []
+        self.multi_line_mode = False
+        self.current_input = ""
         self.ensure_output_dir()
     
     def ensure_output_dir(self):
         """Ensure the output directory exists."""
         self.output_dir.mkdir(exist_ok=True, parents=True)
+    
+    def is_complete_structure(self, text: str) -> bool:
+        """Check if the input is a complete, valid structure that can be processed."""
+        stripped = text.strip()
+        
+        # Empty input is not complete
+        if not stripped:
+            return False
+        
+        # Check for unclosed strings first
+        if self._has_unclosed_strings(stripped):
+            return False
+        
+        # Try to parse as valid Python syntax first
+        if self.is_valid_python_structure(stripped):
+            return True
+        
+        # Check if it's a complete natural language request (most common case)
+        # If it doesn't look like code/data structure, treat as complete natural language
+        if not any(char in stripped for char in ['{', '[', '=', ':', '"']):
+            return True
+            
+        # For structures with brackets, check if they're balanced
+        if (stripped.count('{') == stripped.count('}') and
+            stripped.count('[') == stripped.count(']') and
+            stripped.count('(') == stripped.count(')')):
+            
+            # If brackets are balanced, check if it ends properly
+            if (stripped.endswith('}') or stripped.endswith(']') or 
+                stripped.endswith(')') or not any(char in stripped for char in ['{', '[', '('])):
+                return True
+        
+        return False
+    
+    def _has_unclosed_strings(self, text: str) -> bool:
+        """Check if there are unclosed string literals."""
+        # Simple check for unclosed quotes
+        single_quotes = text.count("'")
+        double_quotes = text.count('"')
+        
+        # If odd number of quotes, we likely have unclosed strings
+        return (single_quotes % 2 == 1) or (double_quotes % 2 == 1)
+    
+    def is_incomplete_structure(self, text: str) -> bool:
+        """Check if the input appears to be an incomplete data structure that needs more input."""
+        stripped = text.strip()
+        
+        # If it's already complete, it's not incomplete
+        if self.is_complete_structure(stripped):
+            return False
+        
+        # Only consider incomplete if it has clear structural indicators that suggest more input
+        incomplete_indicators = (
+            # Clearly unbalanced brackets
+            (stripped.count('{') > stripped.count('}')) or
+            (stripped.count('[') > stripped.count(']')) or
+            (stripped.count('(') > stripped.count(')')) or
+            
+            # Ends with structural characters that suggest continuation
+            stripped.endswith('{') or 
+            stripped.endswith('[') or 
+            stripped.endswith(',') or
+            stripped.endswith(':') or
+            
+            # Assignment without clear completion
+            ('=' in stripped and stripped.endswith('=')) or
+            
+            # String that's clearly incomplete
+            self._has_unclosed_strings(stripped)
+        )
+        
+        return incomplete_indicators
+    
+    def is_valid_python_structure(self, text: str) -> bool:
+        """Check if the text is a valid Python structure."""
+        try:
+            ast.parse(text)
+            return True
+        except SyntaxError:
+            return False
+    
+    def detect_data_structure_type(self, text: str) -> str:
+        """Detect what type of data structure the user is trying to input."""
+        stripped = text.strip()
+        
+        if 'CATS' in stripped.upper():
+            return "CATS dictionary for image/content generation"
+        elif stripped.startswith('{') or '= {' in stripped:
+            return "dictionary structure"
+        elif stripped.startswith('[') or '= [' in stripped:
+            return "list structure"
+        elif any(category in stripped.lower() for category in 
+                ['productivity', 'confidence', 'gratitude', 'healing', 'focus']):
+            return "wellness/affirmation categories"
+        else:
+            return "code structure"
     
     def call_model(self, prompt: str) -> str:
         """Call the Ollama model with a prompt and return the response."""
@@ -183,12 +285,78 @@ class PythonCodeGenerator:
         self.ensure_output_dir()
         print(f"Output directory set to: {self.output_dir.absolute()}")
     
+    def handle_multi_line_input(self, user_input: str) -> str:
+        """Handle multi-line input for complex data structures."""
+        if not self.multi_line_mode:
+            # Check if this is complete input that can be processed immediately
+            if self.is_complete_structure(user_input):
+                return user_input
+            
+            # Only enter multi-line mode if input is clearly incomplete
+            if self.is_incomplete_structure(user_input):
+                self.multi_line_mode = True
+                self.current_input = user_input
+                structure_type = self.detect_data_structure_type(user_input)
+                print(f"📝 Detected incomplete {structure_type}.")
+                print("💡 Continue entering your data. I'll process it when complete.")
+                print("💡 Type 'END' to finish early or 'CANCEL' to cancel.")
+                return None
+            else:
+                # Input doesn't look incomplete, process it as-is
+                return user_input
+        else:
+            # We're in multi-line mode
+            if user_input.strip().upper() == 'END':
+                self.multi_line_mode = False
+                complete_input = self.current_input
+                self.current_input = ""
+                print("✓ Multi-line input completed manually.")
+                return complete_input
+            elif user_input.strip().upper() == 'CANCEL':
+                self.multi_line_mode = False
+                self.current_input = ""
+                print("❌ Multi-line input cancelled.")
+                return None
+            else:
+                # Add the new line to current input
+                self.current_input += "\n" + user_input
+                
+                # Check if the combined input is now complete
+                if self.is_complete_structure(self.current_input):
+                    self.multi_line_mode = False
+                    complete_input = self.current_input
+                    self.current_input = ""
+                    print("✓ Multi-line input auto-completed!")
+                    return complete_input
+                
+                return None
+    
     def process_request(self, user_request: str, output_dir: Path = None):
         """Process a user request to generate Python code."""
-        print(f"\n🎯 Processing request: {user_request}")
+        print(f"\n🎯 Processing request: {user_request[:100]}{'...' if len(user_request) > 100 else ''}")
         
-        # Create a detailed prompt for the model
-        prompt = f"""Generate a complete Python script based on this request: "{user_request}"
+        # Detect the type of request and adjust the prompt accordingly
+        structure_type = self.detect_data_structure_type(user_request)
+        
+        if "CATS dictionary" in structure_type or "wellness" in structure_type:
+            # Special handling for CATS dictionary requests
+            prompt = f"""Generate a complete Python script that processes the following data structure: 
+
+{user_request}
+
+Create a comprehensive script that:
+1. Defines the complete data structure
+2. Processes all categories and subcategories in a single script
+3. Includes functionality to work with the entire dataset
+4. Provides clear output and organization
+5. Uses the data structure as intended (for image generation, affirmations, etc.)
+
+Make sure this is ONE complete script that handles ALL the data, not separate scripts for each category.
+
+Python code:"""
+        else:
+            # Standard prompt for other requests
+            prompt = f"""Generate a complete Python script based on this request: "{user_request}"
 
 Please provide only the Python code without any explanations or markdown formatting.
 Make sure the code is complete, well-commented, and ready to run.
@@ -221,11 +389,11 @@ Python code:"""
             # Show a preview of the code
             print("\n📄 Code preview:")
             print("-" * 50)
-            preview_lines = code.split('\n')[:10]
+            preview_lines = code.split('\n')[:15]
             for i, line in enumerate(preview_lines, 1):
                 print(f"{i:2d}: {line}")
-            if len(code.split('\n')) > 10:
-                print("    ... (showing first 10 lines)")
+            if len(code.split('\n')) > 15:
+                print("    ... (showing first 15 lines)")
             print("-" * 50)
 
 def main():
@@ -233,23 +401,38 @@ def main():
     generator = PythonCodeGenerator()
     
     print("🐍 Interactive Python Code Generator")
-    print("=" * 50)
+    print("=" * 60)
     print("This tool uses your local AI model to generate Python scripts based on your requests.")
-    print("Examples:")
+    print("\n🚀 FEATURES:")
+    print("  ✓ Intelligent multi-line input support")
+    print("  ✓ Paste complete dictionaries/structures directly")
+    print("  ✓ Automatic detection of complete vs incomplete input")
+    print("  ✓ Context-aware processing for complex data structures")
+    print("  ✓ Single comprehensive script generation")
+    print("  ✓ No manual END/CANCEL needed for complete input")
+    print("\nExamples:")
     print("  - 'make a hello world program'")
     print("  - 'create a file organizer script'")
     print("  - 'generate a web scraper for news articles'")
+    print("  - Paste a complete CATS dictionary - it will be processed immediately!")
     print("")
     print("Commands:")
     print("  'set output <directory>' - Change output directory")
+    print("  'clear context' - Clear multi-line input buffer")
     print("  'quit' or 'exit' - Exit the program")
-    print("=" * 50)
+    print("=" * 60)
     print(f"Current output directory: {generator.output_dir.absolute()}")
     print("")
     
     while True:
         try:
-            user_input = input("What Python script would you like me to generate? > ").strip()
+            # Show appropriate prompt based on mode
+            if generator.multi_line_mode:
+                prompt = "... (multi-line mode) > "
+            else:
+                prompt = "What Python script would you like me to generate? > "
+            
+            user_input = input(prompt).strip()
             
             if not user_input:
                 continue
@@ -259,6 +442,13 @@ def main():
                 print("Goodbye! 👋")
                 break
             
+            if user_input.lower() == 'clear context':
+                generator.multi_line_mode = False
+                generator.current_input = ""
+                generator.context_buffer = []
+                print("✓ Context cleared.")
+                continue
+            
             if user_input.lower().startswith('set output '):
                 new_dir = user_input[11:].strip()
                 if new_dir:
@@ -267,9 +457,13 @@ def main():
                     print("Please specify a directory path.")
                 continue
             
-            # Process the code generation request
-            generator.process_request(user_input)
-            print("")
+            # Handle multi-line input
+            processed_input = generator.handle_multi_line_input(user_input)
+            
+            if processed_input is not None:
+                # Process the code generation request
+                generator.process_request(processed_input)
+                print("")
             
         except KeyboardInterrupt:
             print("\n\nGoodbye! 👋")
