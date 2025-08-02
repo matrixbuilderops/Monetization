@@ -163,9 +163,10 @@ You can extend the functionality by:
 
 ## Files in this Repository
 
-- `python_code_generator.py` - Main interactive script
-- `demo_generator.py` - Demo with mock responses
+- `python_code_generator.py` - **Main interactive script** (consolidated best version)
+- `demo_generator.py` - Demo with mock responses  
 - `test_generator.py` - Unit tests for core functionality
+- `*_legacy.py` files - Previous versions kept for reference
 - Other `*.py` files - Legacy affirmation generation scripts
 
 ## Migration from Legacy Scripts
