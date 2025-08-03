@@ -26,6 +26,7 @@ generated_scripts/
 model_output/
 ready_for_upload/
 stable_diffusion_images/
+demo_output/
 
 # Test output directories (don't commit test images)
 test_wellness_output/

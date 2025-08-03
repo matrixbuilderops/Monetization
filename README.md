@@ -2,6 +2,40 @@
 
 An interactive tool that uses your local AI model (Ollama) to generate Python scripts based on natural language requests.
 
+## 🆕 NEW: Seamless Generator (Recommended)
+
+The **seamless generator** eliminates the multi-line mode prompts that were causing workflow interruptions. Now you can paste ANY content (single or multi-line) and get ONE Python script immediately!
+
+### Quick Start with Seamless Generator
+
+```bash
+python3 python_code_generator_seamless.py
+```
+
+**Key Benefits:**
+- ✅ **No multi-line mode prompts** - paste anything and go!
+- ✅ **Handles any input size** - from simple commands to complex data structures
+- ✅ **Always generates ONE unified script** per request
+- ✅ **Command-agnostic** - no assumptions about your intent
+- ✅ **Same Ollama integration** as before, but better UX
+
+### Example Usage
+
+**Old way (with unwanted prompts):**
+```
+> CATS = {
+(multi-line mode) > ...
+(multi-line mode) > ...
+(multi-line mode) > ... 
+```
+
+**New seamless way:**
+```
+> [paste your entire request]
+🎯 Processing request: CATS = {...
+✅ Generated Python script: cats_20250803_123456.py
+```
+
 ## Features
 
 - **Interactive CLI Interface**: Talk to your AI model using natural language
@@ -31,10 +65,20 @@ An interactive tool that uses your local AI model (Ollama) to generate Python sc
 
 ### Usage
 
-1. **Start the Interactive Generator**:
-   ```bash
-   python3 python_code_generator.py
-   ```
+**Seamless Generator (Recommended):**
+```bash
+python3 python_code_generator_seamless.py
+```
+
+**Original Generator:**
+```bash
+python3 python_code_generator.py
+```
+
+**Enhanced Generator:**
+```bash
+python3 python_code_generator_enhanced.py
+```
 
 2. **Make Requests**: Tell the AI what Python script you want:
    ```
@@ -71,15 +115,47 @@ Here are some example requests you can try:
 - `set output <directory>` - Change the output directory for generated scripts
 - `quit` or `exit` - Exit the program
 
-## Demo Mode
+## Testing and Demos
 
-To see how the tool works without needing Ollama installed, run the demo:
-
+**Run All Tests:**
 ```bash
-python3 demo_generator.py
+python3 test_seamless_generator.py
 ```
 
-This uses pre-written responses to show the functionality.
+**Interactive Demo (No Ollama Required):**
+```bash
+python3 demo_seamless_interactive.py
+```
+
+**Comparison Demo:**
+```bash
+python3 demo_seamless_vs_enhanced.py
+```
+
+## Files in this Repository
+
+- `python_code_generator_seamless.py` - **NEW: Recommended seamless generator**
+- `python_code_generator.py` - Original interactive script
+- `python_code_generator_enhanced.py` - Enhanced version with multi-line support
+- `test_seamless_generator.py` - Unit tests for seamless generator
+- `demo_seamless_interactive.py` - Interactive demo with mock responses
+- `demo_seamless_vs_enhanced.py` - Comparison demo
+- Other `*.py` files - Legacy affirmation generation scripts
+
+## Migration to Seamless Generator
+
+If you're experiencing issues with multi-line mode prompts like:
+```
+(multi-line mode) > ...
+(multi-line mode) > ...
+```
+
+**Solution:** Use the new seamless generator:
+```bash
+python3 python_code_generator_seamless.py
+```
+
+The seamless generator provides the same functionality but eliminates the frustrating multi-line mode interface.
 
 ## Configuration
 
@@ -163,9 +239,12 @@ You can extend the functionality by:
 
 ## Files in this Repository
 
-- `python_code_generator.py` - Main interactive script
-- `demo_generator.py` - Demo with mock responses
-- `test_generator.py` - Unit tests for core functionality
+- `python_code_generator_seamless.py` - **NEW: Recommended seamless generator**
+- `python_code_generator.py` - Original interactive script
+- `python_code_generator_enhanced.py` - Enhanced version with multi-line support
+- `test_seamless_generator.py` - Unit tests for seamless generator
+- `demo_seamless_interactive.py` - Interactive demo with mock responses
+- `demo_seamless_vs_enhanced.py` - Comparison demo
 - Other `*.py` files - Legacy affirmation generation scripts
 
 ## Migration from Legacy Scripts
