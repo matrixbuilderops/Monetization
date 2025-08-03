@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """
-Interactive Python Code Generator
+Interactive Python Code Generator with Comprehensive Validation
 Uses local Ollama model to generate Python scripts based on natural language requests.
+Enhanced with comprehensive code quality validation using bandit, coverage, flake8, 
+hypothesis, interrogate, mypy, pathspec, pylint, vulture, and z3.
 """
 
 import os
@@ -12,6 +14,13 @@ import time
 from pathlib import Path
 from datetime import datetime
 
+# Import comprehensive code quality validator
+try:
+    from code_quality_validator import CodeQualityValidator
+    COMPREHENSIVE_VALIDATION_AVAILABLE = True
+except ImportError:
+    COMPREHENSIVE_VALIDATION_AVAILABLE = False
+
 # Configuration
 OLLAMA_MODEL = "mixtral:8x7b-instruct-v0.1-q6_K"
 DEFAULT_OUTPUT_DIR = "./generated_scripts"
@@ -21,6 +30,15 @@ class PythonCodeGenerator:
         self.model_name = model_name
         self.output_dir = Path(DEFAULT_OUTPUT_DIR)
         self.ensure_output_dir()
+        
+        # Initialize comprehensive code quality validator
+        if COMPREHENSIVE_VALIDATION_AVAILABLE:
+            self.quality_validator = CodeQualityValidator()
+            print("✅ Comprehensive code quality validation enabled!")
+            print("   Tools: bandit, coverage, flake8, hypothesis, interrogate, mypy, pathspec, pylint, vulture, z3")
+        else:
+            self.quality_validator = None
+            print("⚠️  Using basic validation only")
     
     def ensure_output_dir(self):
         """Ensure the output directory exists."""
@@ -211,6 +229,28 @@ Python code:"""
             print("Raw response:", response[:200] + "..." if len(response) > 200 else response)
             return
         
+        # Run comprehensive validation and improvement
+        if self.quality_validator:
+            print("🔍 Running comprehensive validation and improvement...")
+            try:
+                validation_results = self.quality_validator.validate_code(code, filename)
+                
+                # Use improved code if available
+                if validation_results['improved_code'] != code:
+                    print("✨ Code automatically improved!")
+                    code = validation_results['improved_code']
+                
+                # Show validation summary
+                summary = self.quality_validator.get_summary(validation_results)
+                print("📊 Validation Summary:")
+                for line in summary.split('\n'):
+                    if line.strip():
+                        print(f"   {line}")
+                        
+            except Exception as e:
+                print(f"⚠️  Comprehensive validation failed: {e}")
+                print("   Proceeding with basic validation...")
+        
         # Generate filename
         filename = self.generate_filename(user_request)
         
@@ -232,9 +272,15 @@ def main():
     """Main interactive loop."""
     generator = PythonCodeGenerator()
     
-    print("🐍 Interactive Python Code Generator")
-    print("=" * 50)
+    print("🐍 Interactive Python Code Generator with Comprehensive Validation")
+    print("=" * 70)
     print("This tool uses your local AI model to generate Python scripts based on your requests.")
+    if COMPREHENSIVE_VALIDATION_AVAILABLE:
+        print("✅ Enhanced with comprehensive code quality validation!")
+        print("   Tools: bandit, coverage, flake8, hypothesis, interrogate, mypy, pathspec, pylint, vulture, z3")
+    else:
+        print("⚠️  Basic validation mode (install comprehensive tools for enhanced validation)")
+    print("")
     print("Examples:")
     print("  - 'make a hello world program'")
     print("  - 'create a file organizer script'")
@@ -243,7 +289,7 @@ def main():
     print("Commands:")
     print("  'set output <directory>' - Change output directory")
     print("  'quit' or 'exit' - Exit the program")
-    print("=" * 50)
+    print("=" * 70)
     print(f"Current output directory: {generator.output_dir.absolute()}")
     print("")
     

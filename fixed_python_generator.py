@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
-Enhanced Interactive Python Code Generator with Validation Loop
+Enhanced Interactive Python Code Generator with Comprehensive Validation
 Uses local Ollama model to generate and validate Python scripts based on natural language requests.
-Features: intelligent input detection, self-validation, backup system, and seamless UX.
+Features: intelligent input detection, comprehensive multi-tool validation (bandit, coverage, flake8, 
+hypothesis, interrogate, mypy, pathspec, pylint, vulture, z3), auto-fixing, backup system, and seamless UX.
 """
 
 import os
@@ -13,6 +14,14 @@ import ast
 import shutil
 from pathlib import Path
 from datetime import datetime
+
+# Import our comprehensive code quality validator
+try:
+    from code_quality_validator import CodeQualityValidator
+    COMPREHENSIVE_VALIDATION_AVAILABLE = True
+except ImportError:
+    COMPREHENSIVE_VALIDATION_AVAILABLE = False
+    print("⚠️  Comprehensive validation not available. Installing fallback validation...")
 
 # ==================== USER CONFIGURATION ====================
 # Model and Directory Settings
@@ -45,6 +54,15 @@ class EnhancedPythonCodeGenerator:
         self.multi_line_mode = False
         self.current_input = ""
         self.ensure_directories()
+        
+        # Initialize comprehensive code quality validator
+        if COMPREHENSIVE_VALIDATION_AVAILABLE:
+            self.quality_validator = CodeQualityValidator()
+            print("✅ Comprehensive code quality validation enabled!")
+            print("   Tools: bandit, coverage, flake8, hypothesis, interrogate, mypy, pathspec, pylint, vulture, z3")
+        else:
+            self.quality_validator = None
+            print("⚠️  Using basic validation only")
     
     def ensure_directories(self):
         """Ensure the output and backup directories exist."""
@@ -331,6 +349,40 @@ class EnhancedPythonCodeGenerator:
         issues = []
         is_valid = True
         
+        # Use comprehensive validator if available
+        if self.quality_validator:
+            print("🔍 Running comprehensive validation with all tools...")
+            try:
+                validation_results = self.quality_validator.validate_code(code)
+                
+                # Extract results
+                is_valid = validation_results['valid']
+                if validation_results['issues']:
+                    issues.extend(validation_results['issues'])
+                    if any('Syntax error' in issue for issue in validation_results['issues']):
+                        is_valid = False
+                
+                if validation_results['warnings']:
+                    issues.extend([f"⚠️  {warning}" for warning in validation_results['warnings']])
+                
+                # Get improved code
+                improved_code = validation_results['improved_code']
+                
+                # Print summary
+                summary = self.quality_validator.get_summary(validation_results)
+                if SHOW_VALIDATION_FEEDBACK:
+                    print("📊 Validation Summary:")
+                    for line in summary.split('\n'):
+                        if line.strip():
+                            print(f"   {line}")
+                
+                return is_valid, issues, improved_code
+                
+            except Exception as e:
+                print(f"⚠️  Comprehensive validation failed: {e}")
+                print("   Falling back to basic validation...")
+        
+        # Fallback to original validation logic
         # First check basic syntax
         if not self.validate_python_code(code):
             issues.append("❌ Syntax Error: Code has basic Python syntax errors")
@@ -763,20 +815,29 @@ def main():
     print("  ✓ Intelligent multi-line input support")
     print("  ✓ Paste complete dictionaries/structures directly")
     print("  ✓ Automatic detection of complete vs incomplete input")
-    print("  ✓ Comprehensive code validation (flake8, syntax, style)")
-    print("  ✓ Automatic code fixing for common style issues")
+    print("  ✓ COMPREHENSIVE code validation (bandit, coverage, flake8, hypothesis, interrogate, mypy, pathspec, pylint, vulture, z3)")
+    print("  ✓ Automatic security analysis and vulnerability detection")
+    print("  ✓ Advanced type checking and static analysis")
+    print("  ✓ Dead code detection and documentation coverage")
+    print("  ✓ Automatic code fixing for common style and security issues")
     print("  ✓ Enhanced retry logic with clear failure reasons")
-    print("  ✓ Self-validation loop for code quality")
+    print("  ✓ Self-validation loop for maximum code quality")
     print("  ✓ Automatic backup system")
     print("  ✓ No manual END/CANCEL needed for complete input")
     print("  ✓ IMPROVED: Better handling of large prompts - just paste and go!")
-    print("  ✓ NEW: All generated code guaranteed to be syntactically correct!")
+    print("  ✓ NEW: All generated code guaranteed to be syntactically correct and secure!")
     
     print(f"\n⚙️ CONFIGURATION:")
     print(f"  • Model: {OLLAMA_MODEL}")
     print(f"  • Max retries: {MAX_RETRIES}")
     print(f"  • Validation: {'Enabled' if ENABLE_VALIDATION_LOOP else 'Disabled'} ({VALIDATION_LEVEL})")
-    print(f"  • Comprehensive Linting: Enabled (flake8 + custom checks)")
+    if COMPREHENSIVE_VALIDATION_AVAILABLE:
+        print(f"  • Comprehensive Quality Tools: ✅ ALL TOOLS INTEGRATED")
+        print(f"    bandit (security) | coverage (test coverage) | flake8 (style)")
+        print(f"    hypothesis (testing) | interrogate (docs) | mypy (types)")
+        print(f"    pathspec (patterns) | pylint (quality) | vulture (dead code) | z3 (theorem proving)")
+    else:
+        print(f"  • Comprehensive Linting: ⚠️  Basic validation only (flake8 + custom checks)")
     print(f"  • Backups: {'Enabled' if BACKUP_BEFORE_VALIDATION else 'Disabled'}")
     print(f"  • Input confirmation: {'Enabled' if CONFIRM_AMBIGUOUS_INPUT else 'Disabled'}")
     

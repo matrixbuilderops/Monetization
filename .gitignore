@@ -25,6 +25,17 @@ MANIFEST
 generated_scripts/
 model_output/
 ready_for_upload/
+backups/
+
+# Integrated tools (keep main files but exclude some large build directories)
+integrated_tools/**/tests/
+integrated_tools/**/test_*
+integrated_tools/**/.git/
+integrated_tools/**/docs/
+integrated_tools/**/examples/
+integrated_tools/**/*.egg-info/
+integrated_tools/**/build/
+integrated_tools/**/dist/
 
 # IDE
 .vscode/
@@ -45,3 +56,8 @@ Thumbs.db
 # Logs
 *.log
 bridge_log.txt
+
+# Temporary files
+/tmp/
+*.tmp
+.pytest_cache/
