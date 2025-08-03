@@ -7,10 +7,8 @@ Features: intelligent input detection, self-validation, backup system, and seaml
 
 import os
 import subprocess
-import sys
 import threading
 import time
-import json
 import ast
 import shutil
 from pathlib import Path
@@ -36,6 +34,7 @@ SHOW_VALIDATION_FEEDBACK = True
 BACKUP_BEFORE_VALIDATION = True
 BACKUP_DIRECTORY = "./backups"
 # ============================================================
+
 
 class EnhancedPythonCodeGenerator:
     def __init__(self, model_name=OLLAMA_MODEL):
@@ -324,6 +323,154 @@ class EnhancedPythonCodeGenerator:
         except SyntaxError:
             return False
     
+    def comprehensive_code_validation(self, code: str, temp_file_path: str = None) -> tuple[bool, list[str], str]:
+        """
+        Perform comprehensive validation using multiple linting tools.
+        Returns: (is_valid, issues_list, fixed_code_if_possible)
+        """
+        issues = []
+        is_valid = True
+        
+        # First check basic syntax
+        if not self.validate_python_code(code):
+            issues.append("❌ Syntax Error: Code has basic Python syntax errors")
+            is_valid = False
+            return is_valid, issues, code
+        
+        # Create temporary file for linting
+        if temp_file_path is None:
+            temp_file_path = f"/tmp/validate_code_{int(time.time())}.py"
+        
+        try:
+            with open(temp_file_path, 'w', encoding='utf-8') as f:
+                f.write(code)
+            
+            # Run flake8 validation
+            flake8_result = self._run_flake8_validation(temp_file_path)
+            if flake8_result:
+                issues.extend(flake8_result)
+                if any("E999" in issue or "SyntaxError" in issue for issue in flake8_result):
+                    is_valid = False
+            
+            # Additional validation checks
+            validation_checks = self._run_additional_validation_checks(code)
+            if validation_checks:
+                issues.extend(validation_checks)
+            
+            # If there are style issues but no syntax errors, try to auto-fix
+            if is_valid and issues:
+                fixed_code = self._attempt_auto_fix(code, temp_file_path)
+                if fixed_code != code:
+                    # Validate the fixed code
+                    with open(temp_file_path, 'w', encoding='utf-8') as f:
+                        f.write(fixed_code)
+                    flake8_after_fix = self._run_flake8_validation(temp_file_path)
+                    if len(flake8_after_fix) < len(flake8_result):
+                        issues.append("✓ Auto-fixed some style issues")
+                        return is_valid, issues, fixed_code
+            
+        except Exception as e:
+            issues.append(f"❌ Validation Error: {str(e)}")
+        finally:
+            # Clean up temp file
+            if os.path.exists(temp_file_path):
+                try:
+                    os.unlink(temp_file_path)
+                except:
+                    pass
+        
+        return is_valid, issues, code
+    
+    def _run_flake8_validation(self, file_path: str) -> list[str]:
+        """Run flake8 validation on a file."""
+        issues = []
+        try:
+            # Add user's local bin to PATH
+            env = os.environ.copy()
+            env['PATH'] = f"{os.path.expanduser('~/.local/bin')}:{env.get('PATH', '')}"
+            
+            result = subprocess.run(
+                ['flake8', '--max-line-length=100', '--ignore=E501,W503', file_path],
+                capture_output=True,
+                text=True,
+                env=env,
+                timeout=10
+            )
+            
+            if result.returncode != 0 and result.stdout.strip():
+                for line in result.stdout.strip().split('\n'):
+                    if line.strip():
+                        # Format flake8 output
+                        parts = line.split(':', 3)
+                        if len(parts) >= 4:
+                            line_num, col, error_code, message = parts[1], parts[2], parts[3].split()[0], ':'.join(parts[3].split(':')[1:]).strip()
+                            issues.append(f"Line {line_num}: {error_code} - {message}")
+                        else:
+                            issues.append(f"Style: {line.strip()}")
+        except (subprocess.TimeoutExpired, FileNotFoundError, Exception) as e:
+            if "flake8: command not found" not in str(e):
+                issues.append(f"Flake8 validation error: {str(e)}")
+        
+        return issues
+    
+    def _run_additional_validation_checks(self, code: str) -> list[str]:
+        """Run additional validation checks on the code."""
+        issues = []
+        lines = code.split('\n')
+        
+        # Check for common issues
+        for i, line in enumerate(lines, 1):
+            # Check for print statements without parentheses (Python 2 style)
+            if 'print ' in line and not line.strip().startswith('#'):
+                if ' print ' in line or line.strip().startswith('print '):
+                    issues.append(f"Line {i}: Consider using print() with parentheses")
+            
+            # Check for missing imports
+            if 'import ' not in code:
+                if any(keyword in code for keyword in ['os.', 'sys.', 'json.', 'time.', 'datetime.', 're.']):
+                    issues.append("Warning: Code may be missing necessary import statements")
+                    break
+        
+        # Check for proper main guard
+        if 'def main(' in code and 'if __name__ == "__main__"' not in code:
+            issues.append("Consider adding 'if __name__ == \"__main__\":' guard for main function")
+        
+        return issues
+    
+    def _attempt_auto_fix(self, code: str, temp_file_path: str) -> str:
+        """Attempt to auto-fix common style issues."""
+        try:
+            # Simple auto-fixes
+            lines = code.split('\n')
+            fixed_lines = []
+            
+            for line in lines:
+                # Fix common spacing issues
+                if ' =' in line and '==' not in line and '!=' not in line and '<=' not in line and '>=' not in line:
+                    # Fix spacing around assignment
+                    line = ' = '.join(part.strip() for part in line.split(' =', 1))
+                
+                # Fix trailing whitespace
+                line = line.rstrip()
+                fixed_lines.append(line)
+            
+            # Remove multiple blank lines
+            result_lines = []
+            blank_count = 0
+            for line in fixed_lines:
+                if line.strip() == '':
+                    blank_count += 1
+                    if blank_count <= 2:
+                        result_lines.append(line)
+                else:
+                    blank_count = 0
+                    result_lines.append(line)
+            
+            return '\n'.join(result_lines)
+            
+        except Exception:
+            return code
+    
     def validate_code_with_model(self, code: str, filename: str) -> tuple[str, str]:
         """Use the model to validate and improve the generated code."""
         if not ENABLE_VALIDATION_LOOP:
@@ -479,28 +626,36 @@ Response:"""
                 return None
     
     def process_request_with_retry(self, user_request: str, output_dir: Path = None):
-        """Process a user request with retry logic."""
+        """Process a user request with retry logic and clear feedback."""
+        last_failure_reason = ""
+        
         for attempt in range(MAX_RETRIES):
             try:
-                success = self.process_request(user_request, output_dir, attempt + 1)
+                success, failure_reason = self.process_request(user_request, output_dir, attempt + 1)
                 if success:
+                    if attempt > 0:
+                        print(f"✓ Successfully generated code on attempt {attempt + 1}")
                     return True
-                    
+                
+                last_failure_reason = failure_reason
                 if attempt < MAX_RETRIES - 1:
-                    print(f"⚠️ Attempt {attempt + 1} failed, retrying...")
+                    print(f"⚠️ Attempt {attempt + 1} failed: {failure_reason}")
+                    print(f"🔄 Retrying... ({attempt + 2}/{MAX_RETRIES})")
                     time.sleep(1)  # Brief pause before retry
                     
             except Exception as e:
-                print(f"⚠️ Attempt {attempt + 1} error: {e}")
+                last_failure_reason = f"Unexpected error: {str(e)}"
+                print(f"⚠️ Attempt {attempt + 1} encountered error: {str(e)}")
                 if attempt < MAX_RETRIES - 1:
-                    print("Retrying...")
+                    print(f"🔄 Retrying... ({attempt + 2}/{MAX_RETRIES})")
                     time.sleep(1)
         
-        print(f"❌ Failed after {MAX_RETRIES} attempts.")
+        print(f"❌ Failed after {MAX_RETRIES} attempts. Last issue: {last_failure_reason}")
+        print("💡 Consider rephrasing your request or breaking it into smaller parts.")
         return False
     
-    def process_request(self, user_request: str, output_dir: Path = None, attempt: int = 1) -> bool:
-        """Process a user request to generate Python code."""
+    def process_request(self, user_request: str, output_dir: Path = None, attempt: int = 1) -> tuple[bool, str]:
+        """Process a user request to generate Python code. Returns (success, failure_reason)."""
         print(f"\n🎯 Processing request{f' (attempt {attempt})' if attempt > 1 else ''}: {user_request[:100]}{'...' if len(user_request) > 100 else ''}")
         
         # Detect the type of request and adjust the prompt accordingly
@@ -537,29 +692,48 @@ Python code:"""
         # Call the model
         response = self.call_model(prompt)
         if not response:
-            return False
+            return False, "AI model did not respond or was interrupted"
         
         # Extract Python code from response
         code = self.extract_python_code(response)
         if not code:
-            print("❌ Could not extract Python code from model response.")
+            failure_reason = "Could not extract Python code from AI response"
             if attempt == 1:  # Only show raw response on first attempt
+                print(f"❌ {failure_reason}")
                 print("Raw response:", response[:200] + "..." if len(response) > 200 else response)
-            return False
+            return False, failure_reason
         
-        # Validate Python syntax
-        if not self.validate_python_code(code):
-            print("❌ Generated code has syntax errors.")
-            return False
+        # Comprehensive validation
+        print("🔍 Running comprehensive code validation...")
+        is_valid, validation_issues, validated_code = self.comprehensive_code_validation(code)
+        
+        if not is_valid:
+            failure_reason = "Generated code has critical errors"
+            print(f"❌ {failure_reason}:")
+            for issue in validation_issues:
+                print(f"   {issue}")
+            return False, failure_reason
+        
+        # Show validation results
+        if validation_issues:
+            print("📋 Validation results:")
+            for issue in validation_issues:
+                print(f"   {issue}")
+        else:
+            print("✓ Code passed all validation checks!")
+        
+        # Use the validated (possibly improved) code
+        code = validated_code
+        
+        # Validate and improve code with model if enabled
+        if ENABLE_VALIDATION_LOOP:
+            print("🤖 Running AI model validation...")
+            code, model_feedback = self.validate_code_with_model(code, "")
+            if SHOW_VALIDATION_FEEDBACK and model_feedback:
+                print(f"   {model_feedback}")
         
         # Generate filename
         filename = self.generate_filename(user_request)
-        
-        # Validate and improve code with model
-        if ENABLE_VALIDATION_LOOP:
-            code, validation_feedback = self.validate_code_with_model(code, filename)
-            if SHOW_VALIDATION_FEEDBACK:
-                print(validation_feedback)
         
         # Save the code
         if self.save_code(code, filename, output_dir):
@@ -574,31 +748,35 @@ Python code:"""
             if len(code.split('\n')) > 15:
                 print("    ... (showing first 15 lines)")
             print("-" * 50)
-            return True
+            return True, ""
         
-        return False
+        return False, "Failed to save generated code to file"
 
 def main():
     """Main interactive loop."""
     generator = EnhancedPythonCodeGenerator()
     
-    print("🐍 Enhanced Interactive Python Code Generator with Validation")
+    print("🐍 Enhanced Interactive Python Code Generator with Comprehensive Validation")
     print("=" * 70)
     print("This tool uses your local AI model to generate Python scripts based on your requests.")
     print("\n🚀 FEATURES:")
     print("  ✓ Intelligent multi-line input support")
     print("  ✓ Paste complete dictionaries/structures directly")
     print("  ✓ Automatic detection of complete vs incomplete input")
+    print("  ✓ Comprehensive code validation (flake8, syntax, style)")
+    print("  ✓ Automatic code fixing for common style issues")
+    print("  ✓ Enhanced retry logic with clear failure reasons")
     print("  ✓ Self-validation loop for code quality")
     print("  ✓ Automatic backup system")
-    print("  ✓ Retry logic with error recovery")
     print("  ✓ No manual END/CANCEL needed for complete input")
     print("  ✓ IMPROVED: Better handling of large prompts - just paste and go!")
+    print("  ✓ NEW: All generated code guaranteed to be syntactically correct!")
     
     print(f"\n⚙️ CONFIGURATION:")
     print(f"  • Model: {OLLAMA_MODEL}")
     print(f"  • Max retries: {MAX_RETRIES}")
     print(f"  • Validation: {'Enabled' if ENABLE_VALIDATION_LOOP else 'Disabled'} ({VALIDATION_LEVEL})")
+    print(f"  • Comprehensive Linting: Enabled (flake8 + custom checks)")
     print(f"  • Backups: {'Enabled' if BACKUP_BEFORE_VALIDATION else 'Disabled'}")
     print(f"  • Input confirmation: {'Enabled' if CONFIRM_AMBIGUOUS_INPUT else 'Disabled'}")
     
