@@ -10,13 +10,20 @@ import time
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 import argparse
 
 # Set environment variables to disable CUDA/xFormers before importing
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 os.environ["FORCE_CPU"] = "1"
 os.environ["XFORMERS_DISABLED"] = "1"
+
+# Import PIL Image first to ensure it's always available for type hints
+try:
+    from PIL import Image
+except ImportError:
+    print("❌ PIL/Pillow not installed. Please install with: pip install pillow")
+    exit(1)
 
 try:
     # Disable xFormers to avoid CUDA dependency issues
@@ -26,9 +33,7 @@ try:
     # Force PyTorch to use CPU only
     torch.backends.cuda.is_available = lambda: False
     
-    from diffusers import StableDiffusionPipeline, DiffusionPipeline
-    from PIL import Image
-    import numpy as np
+    from diffusers import StableDiffusionPipeline
     
     print("✅ Successfully imported required packages (CPU mode)")
     
@@ -292,6 +297,10 @@ class WellnessImageGenerator:
         
     def generate_image(self, prompt: str, width: int, height: int, num_inference_steps: int = 15) -> Optional[Image.Image]:
         """Generate a single image using the pipeline"""
+        if self.pipeline is None:
+            self.logger.error("Pipeline not initialized")
+            return None
+            
         try:
             # CPU-optimized generation settings
             with torch.no_grad():  # Reduce memory usage
@@ -314,26 +323,28 @@ class WellnessImageGenerator:
             print(f"⚠️  Generation failed: {e}")
             
             # Try with reduced settings
-            try:
-                print("🔄 Retrying with reduced settings...")
-                with torch.no_grad():
-                    image = self.pipeline(
-                        prompt=prompt,
-                        width=min(width, 512),  # Reduce size for CPU
-                        height=min(height, 512),
-                        num_inference_steps=10,  # Fewer steps
-                        guidance_scale=7.0
-                    ).images[0]
-                
-                # Resize back to original dimensions if needed
-                if width > 512 or height > 512:
-                    image = image.resize((width, height), Image.Resampling.LANCZOS)
-                
-                return image
-                
-            except Exception as e2:
-                self.logger.error(f"Retry also failed: {e2}")
-                return None
+            if self.pipeline is not None:
+                try:
+                    print("🔄 Retrying with reduced settings...")
+                    with torch.no_grad():
+                        image = self.pipeline(
+                            prompt=prompt,
+                            width=min(width, 512),  # Reduce size for CPU
+                            height=min(height, 512),
+                            num_inference_steps=10,  # Fewer steps
+                            guidance_scale=7.0
+                        ).images[0]
+                    
+                    # Resize back to original dimensions if needed
+                    if width > 512 or height > 512:
+                        image = image.resize((width, height), Image.Resampling.LANCZOS)
+                    
+                    return image
+                    
+                except Exception as e2:
+                    self.logger.error(f"Retry also failed: {e2}")
+            
+            return None
             
     def save_image_with_metadata(self, image: Image.Image, filepath: Path, prompt: str, category: str, subcategory: str):
         """Save image with metadata"""
@@ -473,11 +484,11 @@ class WellnessImageGenerator:
         """Get number of images per category from user"""
         while True:
             try:
-                count = input(f"\nImages per category (default {self.default_images_per_category}): ").strip()
-                if not count:
+                count_str = input(f"\nImages per category (default {self.default_images_per_category}): ").strip()
+                if not count_str:
                     return self.default_images_per_category
                     
-                count = int(count)
+                count = int(count_str)
                 if count > 0:
                     return count
                 else:
