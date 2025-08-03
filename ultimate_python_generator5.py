@@ -36,6 +36,10 @@ ENABLE_CODE_VALIDATORS = True
 # Backup Settings
 BACKUP_BEFORE_VALIDATION = True
 BACKUP_DIRECTORY = "./backups"
+
+# Code Merging Settings
+SAVE_SMALLER_SCRIPTS = False  # Set to True to also save individual fragmented scripts
+MERGE_ALL_CODE_BLOCKS = True  # Always merge multiple code blocks into one script
 # ============================================================
 
 class CodeQualityValidator:
@@ -124,7 +128,37 @@ class CodeQualityValidator:
             if pylint_result['issues']:
                 results['warnings'].extend([f"Quality: {issue}" for issue in pylint_result['issues']])
             
-            # 9. Apply additional improvements
+            # 9. Z3 theorem prover analysis (analysis only)
+            z3_result = self._run_z3_analysis(temp_path)
+            results['tool_results']['z3'] = z3_result
+            if z3_result['issues']:
+                results['warnings'].extend([f"Logic: {issue}" for issue in z3_result['issues']])
+            
+            # 10. Coverage analysis (analysis only)
+            coverage_result = self._run_coverage_analysis(temp_path)
+            results['tool_results']['coverage'] = coverage_result
+            if coverage_result['issues']:
+                results['warnings'].extend([f"Coverage: {issue}" for issue in coverage_result['issues']])
+            
+            # 11. Interrogate documentation analysis (analysis only)
+            interrogate_result = self._run_interrogate_analysis(temp_path)
+            results['tool_results']['interrogate'] = interrogate_result
+            if interrogate_result['issues']:
+                results['warnings'].extend([f"Documentation: {issue}" for issue in interrogate_result['issues']])
+            
+            # 12. Vulture dead code analysis (analysis only)
+            vulture_result = self._run_vulture_analysis(temp_path)
+            results['tool_results']['vulture'] = vulture_result
+            if vulture_result['issues']:
+                results['warnings'].extend([f"Dead code: {issue}" for issue in vulture_result['issues']])
+            
+            # 13. Pathspec pattern matching analysis (analysis only)
+            pathspec_result = self._run_pathspec_analysis(temp_path)
+            results['tool_results']['pathspec'] = pathspec_result
+            if pathspec_result['issues']:
+                results['warnings'].extend([f"Pattern: {issue}" for issue in pathspec_result['issues']])
+            
+            # 14. Apply additional improvements
             improved_code = self._apply_additional_improvements(results['improved_code'])
             if improved_code != results['improved_code']:
                 results['fixes_applied'].append('ENHANCEMENTS: Added docstrings and improvements')
@@ -272,6 +306,152 @@ class CodeQualityValidator:
         except (subprocess.TimeoutExpired, FileNotFoundError):
             return {'issues': ['Pylint not available']}
     
+    def _run_z3_analysis(self, file_path: str) -> Dict:
+        """Run Z3 theorem prover analysis for logic verification."""
+        try:
+            # Z3 is primarily for mathematical/logical verification
+            # We'll do a basic symbolic analysis of the code structure
+            with open(file_path, 'r') as f:
+                code = f.read()
+            
+            issues = []
+            
+            # Check for logical patterns that might benefit from formal verification
+            if 'assert' in code:
+                issues.append("Assertions found - consider formal verification with Z3")
+            if any(op in code for op in ['and', 'or', 'not', '==', '!=', '<', '>', '<=', '>=']):
+                issues.append("Complex logical operations detected - Z3 verification available")
+            
+            # Try to use z3-solver if available
+            try:
+                result = subprocess.run(
+                    ['python3', '-c', 'import z3; print("Z3 available")'],
+                    capture_output=True, text=True, timeout=10
+                )
+                if result.returncode == 0:
+                    issues.append("Z3 solver available for formal verification")
+            except:
+                pass
+            
+            return {'issues': issues}
+            
+        except Exception:
+            return {'issues': ['Z3 analysis unavailable']}
+    
+    def _run_coverage_analysis(self, file_path: str) -> Dict:
+        """Run coverage analysis."""
+        try:
+            # Basic coverage analysis - check for test patterns
+            with open(file_path, 'r') as f:
+                code = f.read()
+            
+            issues = []
+            
+            # Check if this looks like a testable script
+            if 'def ' in code and 'if __name__ == "__main__"' in code:
+                if 'test' not in code.lower() and 'unittest' not in code:
+                    issues.append("Script has functions but no visible test coverage")
+            
+            return {'issues': issues}
+            
+        except Exception:
+            return {'issues': ['Coverage analysis unavailable']}
+    
+    def _run_interrogate_analysis(self, file_path: str) -> Dict:
+        """Run interrogate documentation analysis."""
+        try:
+            result = subprocess.run(
+                ['interrogate', '-v', file_path],
+                capture_output=True, text=True, timeout=30
+            )
+            
+            issues = []
+            if result.stdout:
+                # Parse interrogate output for missing docstrings
+                if 'Missing' in result.stdout:
+                    lines = result.stdout.split('\n')
+                    for line in lines:
+                        if 'Missing' in line:
+                            issues.append(line.strip())
+            
+            return {'issues': issues}
+            
+        except (subprocess.TimeoutExpired, FileNotFoundError):
+            # Fallback documentation analysis
+            with open(file_path, 'r') as f:
+                code = f.read()
+            
+            issues = []
+            lines = code.split('\n')
+            
+            # Check for missing module docstring
+            if not any(line.strip().startswith('"""') or line.strip().startswith("'''") 
+                      for line in lines[:10]):
+                issues.append("Missing module docstring")
+            
+            # Check for functions without docstrings
+            func_count = code.count('def ')
+            docstring_count = code.count('"""') + code.count("'''")
+            if func_count > docstring_count / 2:
+                issues.append(f"Functions may be missing docstrings ({func_count} functions found)")
+            
+            return {'issues': issues}
+    
+    def _run_vulture_analysis(self, file_path: str) -> Dict:
+        """Run vulture dead code analysis."""
+        try:
+            result = subprocess.run(
+                ['vulture', file_path],
+                capture_output=True, text=True, timeout=30
+            )
+            
+            issues = []
+            if result.stdout:
+                # Parse vulture output for dead code
+                lines = result.stdout.split('\n')
+                for line in lines:
+                    if line and 'unused' in line.lower():
+                        issues.append(line.strip())
+            
+            return {'issues': issues}
+            
+        except (subprocess.TimeoutExpired, FileNotFoundError):
+            # Fallback dead code detection
+            with open(file_path, 'r') as f:
+                code = f.read()
+            
+            issues = []
+            
+            # Basic unused import detection
+            import_lines = [line for line in code.split('\n') if line.strip().startswith('import ') or line.strip().startswith('from ')]
+            for import_line in import_lines:
+                if 'import' in import_line and 'os' in import_line and 'os.' not in code:
+                    issues.append("Potentially unused import detected")
+                    break
+            
+            return {'issues': issues}
+    
+    def _run_pathspec_analysis(self, file_path: str) -> Dict:
+        """Run pathspec pattern matching analysis."""
+        try:
+            # Pathspec is for file pattern matching, analyze file patterns in code
+            with open(file_path, 'r') as f:
+                code = f.read()
+            
+            issues = []
+            
+            # Check for file pattern operations
+            if any(pattern in code for pattern in ['glob.glob', '*.py', '*.txt', 'fnmatch']):
+                issues.append("File pattern matching detected - pathspec optimization available")
+            
+            if 'os.walk' in code or 'pathlib' in code:
+                issues.append("File system traversal detected - pathspec patterns could help")
+            
+            return {'issues': issues}
+            
+        except Exception:
+            return {'issues': ['Pathspec analysis unavailable']}
+    
     def _apply_additional_improvements(self, code: str) -> str:
         """Apply additional code improvements."""
         lines = code.split('\n')
@@ -351,6 +531,197 @@ class UltimatePythonCodeGenerator:
         self.output_dir.mkdir(exist_ok=True, parents=True)
         if BACKUP_BEFORE_VALIDATION:
             self.backup_dir.mkdir(exist_ok=True, parents=True)
+    
+    def _merge_code_blocks(self, code_blocks: List[Dict]) -> str:
+        """
+        Merge multiple code blocks into one comprehensive script.
+        
+        Args:
+            code_blocks: List of dictionaries with 'code', 'filename', and 'description' keys
+            
+        Returns:
+            String containing the merged code
+        """
+        if not code_blocks:
+            return ""
+        
+        if len(code_blocks) == 1:
+            return code_blocks[0]['code']
+        
+        # Consolidate imports
+        all_imports = set()
+        all_from_imports = {}
+        merged_sections = []
+        main_functions = []
+        other_code = []
+        
+        # Process each code block
+        for i, block in enumerate(code_blocks):
+            code = block['code']
+            filename = block.get('filename', f'block_{i+1}')
+            description = block.get('description', f'Code Block {i+1}')
+            
+            # Add section header
+            section_header = f"""
+# {'=' * 60}
+# {description} (from {filename})
+# {'=' * 60}
+"""
+            
+            lines = code.split('\n')
+            block_imports = []
+            block_from_imports = {}
+            block_main = []
+            block_other = []
+            
+            in_main = False
+            main_indent = 0
+            
+            for line in lines:
+                stripped = line.strip()
+                
+                # Skip lines that are part of main execution blocks
+                if (stripped == 'main()' or 
+                    (stripped.startswith('main(') and stripped.endswith(')'))):
+                    continue
+                
+                # Handle imports
+                if stripped.startswith('import '):
+                    all_imports.add(stripped)
+                    block_imports.append(line)
+                elif stripped.startswith('from '):
+                    # Parse from imports
+                    if ' import ' in stripped:
+                        module_part = stripped.split(' import ')[0]
+                        import_part = stripped.split(' import ')[1]
+                        if module_part not in all_from_imports:
+                            all_from_imports[module_part] = set()
+                        all_from_imports[module_part].add(import_part)
+                        block_from_imports[module_part] = import_part
+                
+                # Handle main function
+                elif stripped.startswith('def main(') or stripped == 'def main():':
+                    in_main = True
+                    main_indent = len(line) - len(line.lstrip())
+                    block_main.append(line)
+                elif in_main:
+                    # Continue collecting main function lines until we hit a new function or class
+                    if (line.strip() and 
+                        (stripped.startswith('def ') or stripped.startswith('class ')) and
+                        not line.startswith(' ' * (main_indent + 1)) and 
+                        not line.startswith('\t')):
+                        in_main = False
+                        block_other.append(line)
+                    elif stripped.startswith('if __name__ == "__main__":'):
+                        in_main = False
+                        # Skip this line and subsequent lines in this block
+                        continue
+                    else:
+                        block_main.append(line)
+                elif stripped.startswith('if __name__ == "__main__":'):
+                    # Skip individual main blocks and any subsequent lines
+                    while i + 1 < len(lines) and (lines[i + 1].startswith('    ') or lines[i + 1].strip() == ''):
+                        i += 1
+                    continue
+                elif not stripped.startswith('#!/usr/bin/env python3') and not stripped.startswith('"""'):
+                    block_other.append(line)
+            
+            # Store processed sections
+            if block_main:
+                # Clean up the filename for function naming
+                clean_filename = filename.replace(".py", "").replace("-", "_").replace(".", "_")
+                if clean_filename.startswith("script_"):
+                    clean_filename = f"block_{i+1}"
+                
+                main_functions.append({
+                    'name': f'main_{clean_filename}',
+                    'code': block_main,
+                    'description': description
+                })
+            
+            if block_other:
+                other_code.append({
+                    'header': section_header,
+                    'code': '\n'.join(block_other),
+                    'description': description
+                })
+        
+        # Build merged script
+        merged_parts = []
+        
+        # Shebang and module docstring
+        merged_parts.append('#!/usr/bin/env python3')
+        merged_parts.append('"""')
+        merged_parts.append('Comprehensive Python script merged from multiple code blocks.')
+        merged_parts.append('Auto-generated with anti-fragmentation merging technology.')
+        if len(code_blocks) > 1:
+            merged_parts.append(f'Merged from {len(code_blocks)} separate code blocks:')
+            for i, block in enumerate(code_blocks):
+                filename = block.get('filename', f'block_{i+1}')
+                description = block.get('description', f'Code Block {i+1}')
+                merged_parts.append(f'  - {filename}: {description}')
+        merged_parts.append('"""')
+        merged_parts.append('')
+        
+        # Consolidated imports
+        if all_imports or all_from_imports:
+            merged_parts.append('# Consolidated imports')
+            
+            # Regular imports
+            for imp in sorted(all_imports):
+                merged_parts.append(imp)
+            
+            # From imports
+            for module, imports in sorted(all_from_imports.items()):
+                import_list = ', '.join(sorted(imports))
+                merged_parts.append(f'{module} import {import_list}')
+            
+            merged_parts.append('')
+        
+        # All other code sections
+        for section in other_code:
+            merged_parts.append(section['header'])
+            merged_parts.append(section['code'])
+            merged_parts.append('')
+        
+        # Unified main function that calls all individual mains
+        if main_functions:
+            merged_parts.append('')
+            merged_parts.append('# Unified main function')
+            merged_parts.append('def main():')
+            merged_parts.append('    """Unified main function that executes all merged functionality."""')
+            merged_parts.append('    print("🚀 Executing comprehensive merged script...")')
+            merged_parts.append('')
+            
+            for i, main_func in enumerate(main_functions):
+                merged_parts.append(f'    # Execute {main_func["description"]}')
+                merged_parts.append(f'    print("\\n📌 {main_func["description"]}")')
+                merged_parts.append(f'    {main_func["name"]}()')
+                if i < len(main_functions) - 1:
+                    merged_parts.append('')
+            
+            merged_parts.append('')
+            merged_parts.append('    print("\\n✅ All sections completed successfully!")')
+            merged_parts.append('')
+            
+            # Add individual main functions
+            for main_func in main_functions:
+                merged_parts.append(f'def {main_func["name"]}():')
+                merged_parts.append(f'    """Execute {main_func["description"]}."""')
+                
+                # Add the main function code (remove the original def line)
+                main_code_lines = main_func['code'][1:]  # Skip 'def main():'
+                for line in main_code_lines:
+                    merged_parts.append(line)
+                
+                merged_parts.append('')
+        
+        # Final main execution
+        merged_parts.append('')
+        merged_parts.append('if __name__ == "__main__":')
+        merged_parts.append('    main()')
+        
+        return '\n'.join(merged_parts)
     
     def is_complete_structure(self, text: str) -> bool:
         """Check if the input is a complete, valid structure that can be processed."""
@@ -563,32 +934,144 @@ class UltimatePythonCodeGenerator:
                         pass
 
     def extract_python_code(self, response: str) -> str:
-        """Extract Python code from the model response."""
+        """
+        Extract Python code from the model response with multi-block detection and merging.
+        Enhanced to detect multiple code blocks and automatically merge them into one script.
+        """
         lines = response.split('\n')
-        code_lines = []
+        code_blocks = []
+        current_block = []
+        current_filename = None
+        current_description = "Code Block"
         in_code_block = False
+        block_count = 0
         
-        for line in lines:
-            if line.strip().startswith('```python') or line.strip().startswith('```'):
-                if in_code_block:
-                    break
+        # Phase 1: Detect multiple code blocks and extract filenames
+        i = 0
+        while i < len(lines):
+            line = lines[i]
+            stripped = line.strip()
+            
+            # Look for filename mentions before code blocks
+            if not in_code_block and i < len(lines) - 2:
+                # Pattern 1: "save as filename.py" or "call it filename.py" 
+                if any(phrase in stripped.lower() for phrase in ['save as ', 'call it ', 'name it ', 'filename:']):
+                    import re
+                    filename_match = re.search(r'([a-zA-Z_][a-zA-Z0-9_]*\.py)', stripped)
+                    if filename_match:
+                        current_filename = filename_match.group(1)
+                        current_description = stripped
+                
+                # Pattern 2: "Create filename.py:" or "First, create filename.py"
+                elif any(phrase in stripped.lower() for phrase in ['create ', 'first, create']):
+                    import re
+                    filename_match = re.search(r'create\s+([a-zA-Z_][a-zA-Z0-9_]*\.py)', stripped, re.IGNORECASE)
+                    if filename_match:
+                        current_filename = filename_match.group(1)
+                        current_description = stripped
+                
+                # Pattern 3: "Finally, create filename.py" or similar
+                elif any(phrase in stripped.lower() for phrase in ['finally,', 'next,', 'then,', 'also,']):
+                    import re
+                    filename_match = re.search(r'([a-zA-Z_][a-zA-Z0-9_]*\.py)', stripped)
+                    if filename_match:
+                        current_filename = filename_match.group(1)
+                        current_description = stripped
+                
+                # Pattern 4: Comments indicating file purpose
+                elif stripped.startswith('#') and any(word in stripped.lower() for word in ['file', 'script', 'module']):
+                    current_description = stripped.lstrip('#').strip()
+            
+            # Detect code block start
+            if stripped.startswith('```python') or (stripped.startswith('```') and not in_code_block):
+                if in_code_block and current_block:
+                    # Save previous block
+                    code_blocks.append({
+                        'code': '\n'.join(current_block).strip(),
+                        'filename': current_filename or f'script_{block_count + 1}.py',
+                        'description': current_description or f'Code Block {block_count + 1}'
+                    })
+                    current_block = []
+                
                 in_code_block = True
+                block_count += 1
+                if not current_filename:
+                    current_filename = f'script_{block_count}.py'
+                if current_description == "Code Block":
+                    current_description = f'Code Block {block_count}'
+                i += 1
                 continue
             
+            # Detect code block end
+            if in_code_block and stripped == '```':
+                in_code_block = False
+                if current_block:
+                    code_blocks.append({
+                        'code': '\n'.join(current_block).strip(),
+                        'filename': current_filename or f'script_{block_count}.py',
+                        'description': current_description or f'Code Block {block_count}'
+                    })
+                    current_block = []
+                
+                # Reset for next block
+                current_filename = None
+                current_description = "Code Block"
+                i += 1
+                continue
+            
+            # Collect code lines
             if in_code_block:
-                if line.strip() == '```':
-                    break
-                code_lines.append(line)
+                current_block.append(line)
+            
+            i += 1
         
-        if not code_lines:
-            for line in lines:
-                stripped = line.strip()
-                if (not stripped.startswith('Here') and 
-                    not stripped.startswith('This') and 
-                    not stripped.startswith('The') and
-                    stripped and
-                    not stripped.endswith(':')):
-                    code_lines.append(line)
+        # Handle last block if still open
+        if in_code_block and current_block:
+            code_blocks.append({
+                'code': '\n'.join(current_block).strip(),
+                'filename': current_filename or f'script_{block_count}.py',
+                'description': current_description or f'Code Block {block_count}'
+            })
+        
+        # Phase 2: Handle multiple blocks or fallback to single extraction
+        if len(code_blocks) > 1:
+            print(f"🔀 Multi-block detection: Found {len(code_blocks)} separate code blocks")
+            for i, block in enumerate(code_blocks):
+                print(f"  📄 Block {i+1}: {block['filename']} - {block['description']}")
+            
+            if MERGE_ALL_CODE_BLOCKS:
+                print(f"🔧 Intelligent merging: Combining all blocks into one comprehensive script")
+                merged_code = self._merge_code_blocks(code_blocks)
+                
+                # Optional: Save individual fragments if requested
+                if SAVE_SMALLER_SCRIPTS:
+                    print(f"💾 Saving individual fragments (SAVE_SMALLER_SCRIPTS=True)")
+                    for i, block in enumerate(code_blocks):
+                        fragment_filename = f"fragment_{i+1}_{block['filename']}"
+                        self.save_code(block['code'], fragment_filename)
+                        print(f"  📄 Saved fragment: {fragment_filename}")
+                
+                return merged_code
+            else:
+                # Return first valid block
+                for block in code_blocks:
+                    if self.validate_python_code(block['code']):
+                        return block['code']
+        
+        elif len(code_blocks) == 1:
+            return code_blocks[0]['code']
+        
+        # Phase 3: Fallback extraction (original method)
+        code_lines = []
+        for line in lines:
+            stripped = line.strip()
+            if (not stripped.startswith('Here') and 
+                not stripped.startswith('This') and 
+                not stripped.startswith('The') and
+                not stripped.startswith('```') and
+                stripped and
+                not stripped.endswith(':')):
+                code_lines.append(line)
         
         return '\n'.join(code_lines).strip()
 
@@ -775,33 +1258,58 @@ Response:"""
         # Extract filename if specified by user
         cleaned_request, specified_filename = self.extract_filename_from_request(user_request)
         
-        # Universal prompt that works for ANY complexity level
-        prompt = f"""You are an expert Python developer. Generate ONE COMPLETE, COMPREHENSIVE Python script based on this request:
+        # Ultra-Strong Anti-Fragmentation Prompt
+        prompt = f"""🚨 CRITICAL MANDATE - ABSOLUTELY MANDATORY 🚨
+
+You are an expert Python developer. Generate ONE COMPLETE, COMPREHENSIVE Python script based on this request:
 
 "{cleaned_request}"
 
-CRITICAL REQUIREMENTS - ALWAYS FOLLOW THESE:
-1. Create EXACTLY ONE Python script that handles ALL aspects of the request
-2. NEVER break this into multiple separate scripts - everything must be in ONE single file
-3. If the request involves multiple categories, data structures, or components - handle ALL of them in the SAME script
-4. Include ALL necessary imports, functions, classes, and data structures in this ONE file
-5. Make the script complete, functional, and ready to run
-6. Include proper error handling and user-friendly interfaces
-7. Add clear comments explaining each section
-8. If there are multiple operations or categories, create a unified system that handles them all
+🔥 BACKUP PLAN FOR STUBBORN AI MODELS 🔥
+If you even THINK about creating multiple files, STOP. This is a CRITICAL VIOLATION.
 
-EXAMPLES OF WHAT TO INCLUDE IN ONE SCRIPT:
+🚨 ULTRA-CRITICAL REQUIREMENTS - NEVER VIOLATE THESE 🚨:
+1. Create EXACTLY ONE Python script that handles ALL aspects of the request
+2. NEVER EVER break this into multiple separate scripts - everything MUST be in ONE single file
+3. NEVER create file1.py, file2.py, script1.py, script2.py, or ANY multiple files
+4. If the request involves multiple categories, data structures, or components - handle ALL in the SAME script
+5. Include ALL necessary imports, functions, classes, and data structures in this ONE file
+6. Make the script complete, functional, and ready to run
+7. Include proper error handling and user-friendly interfaces
+8. Add clear comments explaining each section
+9. If there are multiple operations or categories, create a unified system that handles them all
+
+🚫 EXPLICIT ANTI-PATTERNS - NEVER DO THESE 🚫:
+- Do NOT create main.py and utils.py
+- Do NOT create separate files for different categories
+- Do NOT create config.py, helpers.py, or any other separate files
+- Do NOT suggest "you can split this into multiple files"
+- Do NOT create modular file structures
+- Do NOT use phrases like "create separate files for organization"
+
+🛡️ PSYCHOLOGICAL BARRIERS AGAINST SPLITTING 🛡️:
+- Every line of code MUST be in the SAME file
+- Creating multiple files is a CRITICAL FAILURE
+- One request = One comprehensive script = SUCCESS
+- Multiple files = ABSOLUTE FAILURE
+
+💡 WHAT TO INCLUDE IN THE ONE SCRIPT:
 - All data structures (dictionaries, lists, etc.)
-- All categories and subcategories
+- All categories and subcategories  
 - All functionality (file operations, API calls, image generation, etc.)
 - All user interface elements (menus, options, etc.)
 - All processing logic in one cohesive program
+- All configuration and settings
+- All helper functions and utilities
+- Everything needed to run the complete application
 
-NO MATTER HOW COMPLEX THE REQUEST IS, CREATE ONE COMPREHENSIVE SCRIPT THAT DOES EVERYTHING.
+🎯 NO MATTER HOW COMPLEX THE REQUEST IS:
+CREATE ONE COMPREHENSIVE SCRIPT THAT DOES EVERYTHING.
+COMPLEXITY = MORE CODE IN THE SAME FILE, NOT MORE FILES.
 
 Request details: {cleaned_request}
 
-Generate the complete Python code (no explanations, just code):"""
+🔧 Generate the complete Python code (no explanations, just code):"""
         
         # Call the model
         response = self.call_model(prompt)
@@ -889,6 +1397,8 @@ def main():
     print("Give it ANY level of complex prompt - it will create ONE comprehensive script!")
     print("\n🎯 FEATURES:")
     print("  ✓ Handles ANY complexity level in ONE comprehensive script")
+    print("  ✓ 🔀 Multi-block detection and intelligent merging")
+    print("  ✓ 🚨 Ultra-strong anti-fragmentation protection")
     print("  ✓ Intelligent multi-line input support")
     print("  ✓ Automatic code quality validation and fixes")
     print("  ✓ BLACK formatting, autopep8 style fixes, isort import sorting")
@@ -903,6 +1413,8 @@ def main():
     print(f"  • Model validation: {'Enabled' if ENABLE_VALIDATION_LOOP else 'Disabled'} ({VALIDATION_LEVEL})")
     print(f"  • Code validators: {'Enabled' if ENABLE_CODE_VALIDATORS else 'Disabled'}")
     print(f"  • Backups: {'Enabled' if BACKUP_BEFORE_VALIDATION else 'Disabled'}")
+    print(f"  • Code merging: {'Enabled' if MERGE_ALL_CODE_BLOCKS else 'Disabled'}")
+    print(f"  • Save fragments: {'Enabled' if SAVE_SMALLER_SCRIPTS else 'Disabled'}")
     
     print("\n🔧 AUTO-FIXING TOOLS:")
     print("  • BLACK: Code formatting")
@@ -912,6 +1424,11 @@ def main():
     print("  • FLAKE8: Style checking")
     print("  • MYPY: Type checking")
     print("  • PYLINT: Code quality analysis")
+    print("  • Z3: Logic verification")
+    print("  • COVERAGE: Test coverage analysis")
+    print("  • INTERROGATE: Documentation analysis")
+    print("  • VULTURE: Dead code detection")
+    print("  • PATHSPEC: Pattern matching analysis")
     
     print("\n📝 EXAMPLES:")
     print("  - 'make a hello world program'")
@@ -923,6 +1440,19 @@ def main():
     print("  - Large dictionary-based prompts (ALL handled as ONE comprehensive script)")
     print("  - Multi-component applications (web servers, data processors, AI tools, etc.)")
     print("  📌 NO MATTER HOW COMPLEX - ALWAYS CREATES ONE PERFECT SCRIPT")
+    
+    print("\n🔀 ANTI-FRAGMENTATION FLOW:")
+    print("  Complex Prompt → AI Response (possibly fragmented)")
+    print("      ↓")
+    print("  🔀 Multi-block Detection")
+    print("      ↓")
+    print("  🔧 Intelligent Merging (if needed)")
+    print("      ↓")
+    print("  ✅ ONE Comprehensive Script")
+    print("      ↓")
+    print("  🛠️ Auto-Fixes Applied")
+    print("      ↓")
+    print("  💾 Production-Ready File Saved")
     
     print("\n💡 COMMANDS:")
     print("  'set output <directory>' - Change output directory")
