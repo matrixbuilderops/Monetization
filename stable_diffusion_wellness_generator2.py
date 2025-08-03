@@ -4,20 +4,18 @@ Stable Diffusion Wellness Image Generator
 CPU-compatible image generation for wellness categories
 """
 
-import os
 import json
 import time
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 import argparse
 
 try:
     from diffusers import StableDiffusionPipeline
     import torch
     from PIL import Image
-    import numpy as np
 except ImportError as e:
     print(f"Required packages not installed: {e}")
     print("Please install: pip install diffusers torch torchvision pillow numpy transformers accelerate")
@@ -243,6 +241,10 @@ class WellnessImageGenerator:
         
     def generate_image(self, prompt: str, width: int, height: int, num_inference_steps: int = 20) -> Optional[Image.Image]:
         """Generate a single image using the pipeline"""
+        if self.pipeline is None:
+            self.logger.error("Pipeline not initialized")
+            return None
+            
         try:
             # Generate image with CPU-optimized settings
             image = self.pipeline(
@@ -398,11 +400,11 @@ class WellnessImageGenerator:
         """Get number of images per category from user"""
         while True:
             try:
-                count = input(f"\nImages per category (default {self.default_images_per_category}): ").strip()
-                if not count:
+                count_str = input(f"\nImages per category (default {self.default_images_per_category}): ").strip()
+                if not count_str:
                     return self.default_images_per_category
                     
-                count = int(count)
+                count = int(count_str)
                 if count > 0:
                     return count
                 else:
