@@ -1,0 +1,58 @@
+Create a comprehensive stable diffusion image generator script with the following specifications:
+
+CORE FUNCTIONALITY:
+- Generate AI images using stable diffusion (CPU-compatible setup only)
+- Handle 15 wellness categories with subcategories for image generation
+- Create organized folder structure for each category
+- Interactive menu system for category selection
+- Configurable image generation settings
+
+CATEGORIES TO INCLUDE:
+CATEGORIES = {
+    "productivity": ["burnout", "focus", "time_management", "imposter_syndrome"],
+    "confidence": ["self-esteem", "public_speaking", "courage"],
+    "gratitude": ["daily_gratitude", "thankfulness"],
+    "healing": ["emotional", "physical", "spiritual"],
+    "focus": ["attention", "clarity", "goals"],
+    "creativity": ["inspiration", "flow", "problem_solving"],
+    "happiness": ["joy", "contentment", "optimism"],
+    "resilience": ["perseverance", "mental_toughness", "bounce_back"],
+    "self_love": ["acceptance", "compassion", "affirmation"],
+    "stress_relief": ["calm", "relaxation", "letting_go"],
+    "abundance": ["wealth", "opportunity", "overflow"],
+    "mindfulness": ["present_moment", "awareness", "breathe"],
+    "relationships": ["love", "connection", "healing_relationships"],
+    "motivation": ["drive", "ambition", "goal_setting"],
+    "self_reflection": ["insight", "introspection", "growth"]
+}
+
+TECHNICAL REQUIREMENTS:
+- Use CPU-only stable diffusion setup (no GPU dependencies)
+- Default image resolution: 2550x3300 pixels (US Letter size at 300 DPI)
+- Default images per category: 6 (user-configurable)
+- Support for custom image dimensions
+- Progress tracking and status updates
+- Error handling and retry logic
+
+USER INTERFACE FEATURES:
+- Interactive menu to select categories (all, single, or multiple)
+- Option to customize number of images per selected category
+- Option to change image resolution before generation
+- Real-time progress display
+- Generated image preview and organization
+
+FOLDER STRUCTURE:
+- Create main output directory
+- Create subdirectories for each category
+- Organize images by category and subcategory
+- Include metadata and generation logs
+
+CONFIGURATION OPTIONS:
+- Adjustable image count per category
+- Customizable image dimensions
+- CPU optimization settings
+- Prompt enhancement for each wellness category
+
+Save this as: stable_diffusion_wellness_generator.py
+
+Make this ONE comprehensive script that handles ALL categories and functionality in a single file.
