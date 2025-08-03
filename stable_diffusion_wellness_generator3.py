@@ -8,10 +8,16 @@ import os
 import json
 import time
 import logging
+import warnings
 from datetime import datetime
 from pathlib import Path
 from typing import List, Optional, Tuple
 import argparse
+
+# Suppress xFormers warnings early to prevent cluttering output
+warnings.filterwarnings("ignore", message=".*xFormers.*")
+warnings.filterwarnings("ignore", message=".*libcudart.*")
+warnings.filterwarnings("ignore", category=UserWarning, module="xformers")
 
 # Set environment variables to disable CUDA / xFormers before importing
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
