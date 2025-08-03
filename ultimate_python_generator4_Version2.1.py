@@ -284,17 +284,34 @@ class UltimatePythonCodeGenerator:
     def call_model(self, prompt: str) -> str:
         """Call the Ollama model to generate code."""
         try:
-            result = subprocess.run(
-                ['/usr/local/bin/ollama', 'generate', self.model_name, prompt],
-                capture_output=True, text=True, timeout=300
+            # Use the correct Ollama command: 'run' instead of 'generate'
+            # Send prompt via stdin instead of as command argument
+            process = subprocess.Popen(
+                ['ollama', 'run', self.model_name],
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True
             )
-            if result.returncode == 0:
-                return result.stdout.strip()
+            
+            stdout, stderr = process.communicate(input=prompt, timeout=300)
+            
+            if process.returncode == 0:
+                return stdout.strip()
             else:
-                print(f"❌ Model call failed: {result.stderr}")
+                print(f"❌ Model call failed: {stderr.strip()}")
                 return ""
         except subprocess.TimeoutExpired:
             print("❌ Model call timed out")
+            # Ensure process is terminated
+            try:
+                process.terminate()
+                process.wait(timeout=5)
+            except:
+                try:
+                    process.kill()
+                except:
+                    pass
             return ""
         except OSError as e:
             print(f"❌ Error calling model: {e}")
